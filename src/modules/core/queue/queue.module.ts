@@ -4,6 +4,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { QueueService } from './queue.service';
 import { UsersSyncProcessor } from './processors/erpnext/erpnext-user.processor';
 import { ErpnextQueueService } from './erpnext-queue.service';
+import { ErpnextModule } from 'src/modules/erpnext/erpnext.module';
 
 @Global()
 @Module({
@@ -14,7 +15,7 @@ import { ErpnextQueueService } from './erpnext-queue.service';
         connection: {
           host: ConfigService.get<string>('REDIS_HOST'),
           port: Number(ConfigService.get<number>('REDIS_PORT')),
-          password: configService.get<string>('REDIS_PASSWORD'),
+          password: ConfigService.get<string>('REDIS_PASSWORD'),
         },
       }),
       inject: [ConfigService],

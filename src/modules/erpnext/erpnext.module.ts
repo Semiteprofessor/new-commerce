@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ErpNextService } from './services/erpnext.service';
 import { OrderModule } from '../apps/shop/order/order.module';
+import { ProductModule } from '../apps/shop/products/product.module';
 
 @Module({
   imports: [ProductModule, OrderModule],

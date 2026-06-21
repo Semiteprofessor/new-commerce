@@ -47,7 +47,7 @@ import { ErpnextModule } from 'src/modules/erpnext/erpnext.module';
     // ShopProcessor,
     // OrdersSyncProcessor,
     // ReturnsSyncProcessor,
-    // ErpnextQueueService,
+    ErpnextQueueService,
     // SlackService,
   ],
   exports: [ErpnextQueueService, QueueService],

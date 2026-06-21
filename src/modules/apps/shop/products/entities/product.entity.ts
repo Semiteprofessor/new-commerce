@@ -4,8 +4,8 @@ import { Column, Entity, Index, JoinTable, ManyToMany, ManyToOne, OneToMany } fr
 import { BusinessProfile } from "../../merchants/entities/business-profile.entity";
 import { Review } from "./review.entity";
 import { Coupon } from "./coupon.entity";
-import { ProductStatuses } from "./enums/product.enum";
 import { Category } from "src/modules/apps/categories/entities/category.entity";
+import { ProductStatuses } from "../enums/product.enum";
 
 @Entity('products')
 export class Product extends BaseEntity {

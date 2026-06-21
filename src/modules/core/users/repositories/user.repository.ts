@@ -20,12 +20,15 @@ export class UserRepository extends EntityRepository<User> {
       const user = this._userRepository.create(data);
       return await this._userRepository.save(user);
     } catch (e) {
-      if (e.code === '23505') {
+      const error = e as { code?: string };
+
+      if (error.code === '23505') {
         throw new ConflictException({
           statusCode: 409,
-          message: `An account, ${data.email} already exists `,
+          message: `An account with email ${data.email} already exists.`,
         });
       }
+
       throw e;
     }
   }

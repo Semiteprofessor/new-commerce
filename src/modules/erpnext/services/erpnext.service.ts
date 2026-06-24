@@ -165,4 +165,24 @@ export class ErpNextService {
 
     return res.data;
   }
+
+  catch(e) {
+    console.log(e);
+    throw e;
+  }
+
+  async subOrUnSubscribeToNewsletter(data) {
+    try {
+      const res = await this.apiClient.post(
+        'ecommerce.controllers.newsletter_controller.sub_unsub_newsletter',
+        {
+          email: data.email,
+          status: data.status,
+        },
+      );
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 }

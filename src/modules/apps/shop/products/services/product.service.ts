@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from "@nestjs/common";
+import { forwardRef, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { ErpnextQueueService } from "src/modules/core/queue/erpnext-queue.service";
@@ -10,6 +10,7 @@ import slugify from 'slugify';
 import { CreateProductDto } from "../dto/product.dto";
 import { ActorUser } from "src/modules/common/types/user.types";
 import { Product } from "../entities/product.entity";
+import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
 
 const { customAlphabet } = require('nanoid');
 
@@ -91,5 +92,26 @@ export class ProductService {
     await this.erpQueueService.enqueueCreateErpNextProduct(product);
 
     return product;
+  }
+
+  // for shoppers app and website
+  async getAllOpenProducts(
+    query: QueryParamsDto,
+  ): Promise<PaginatedRecordsDto<Product>> {
+    if (query.brandSlug) {
+      const brand = await this.brandRepository.findOne({
+        slug: query.brandSlug,
+      });
+      if (!brand)
+        throw new NotFoundException(`Brand with slug ${brand.slug} not found.`);
+      query.brand = brand.name;
+    }
+    let category;
+    if (query.categoryId) {
+      category = await this.categoryService.findCategoryById(query.categoryId);
+      if (!category) throw new NotFoundException(`Category not found .`);
+    }
+
+    return await this.productRepository.findAllByQueryBuilder(query, category);
   }
 }

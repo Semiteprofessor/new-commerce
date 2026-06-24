@@ -146,4 +146,20 @@ export class ProductService {
       });
     }
   }
+
+  async getAllShortageProducts(
+    query: QueryParamsDto,
+    userId?: string,
+  ): Promise<PaginatedRecordsDto<Product>> {
+    if (userId) query.userId = userId;
+    query.shortage <= 5;
+    try {
+      return await this.productRepository.findAllByQueryBuilder(query);
+    } catch (e) {
+      throw new BadRequestException({
+        errorCode: '',
+        message: e.message,
+      });
+    }
+  }
 }

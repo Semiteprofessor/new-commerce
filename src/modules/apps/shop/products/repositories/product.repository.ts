@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { EntityRepository } from "src/db/repository/entity.repository";
 import { Product, Product as ProductEntity } from '../entities/product.entity';
 import { Category } from "src/modules/apps/categories/entities/category.entity";
@@ -274,5 +274,23 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
     }
 
     return await productQuery.getOne();
+  }
+
+  async update(productId: string, data: Partial<Product>): Promise<Product> {
+    if (!productId) {
+      throw new BadRequestException('Product ID is required');
+    }
+
+    const product = await this._productRepository.findOneBy({ id: productId });
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${productId} not found`);
+    }
+
+    await this._productRepository.update({ id: productId }, data);
+
+    return (await this._productRepository.findOneBy({
+      id: productId,
+    })) as Product;
   }
 }

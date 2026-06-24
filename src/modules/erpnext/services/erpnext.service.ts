@@ -5,6 +5,8 @@ import axios from 'axios';
 import { User } from 'src/modules/core/users/entities/user.entity';
 import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
 import { Product } from 'src/modules/apps/shop/products/entities/product.entity';
+import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
+import { ReturnRequest } from 'src/modules/apps/shop/order/entities/return-request.entity';
 @Injectable()
 export class ErpNextService {
   private readonly apiClient;

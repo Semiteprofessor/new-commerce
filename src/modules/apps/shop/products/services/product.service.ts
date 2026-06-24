@@ -244,4 +244,31 @@ export class ProductService {
       { erpSKUNumber: data.sku },
     );
   }
+
+  async updateProductStatus(data): Promise<void> {
+    let status = data.is_live
+      ? ProductStatuses.LIVE
+      : ProductStatuses.IN_REVIEW;
+    await this.productRepository.findOneAndUpdate(
+      { erpSKUNumber: data.item_code },
+      { status },
+    );
+  }
+
+  private async productBelongsToMerchant(
+    userId: string,
+    productId: string,
+  ): Promise<boolean> {
+    const product = await this.productRepository.findOne({
+      id: productId,
+      deletedAt: null,
+    });
+    if (!product) {
+      throw new NotFoundException({
+        errorCode: ErrorCodes.PRODUCT_NOT_FOUND,
+        message: 'Product not found',
+      });
+    }
+    return product.merchantId !== userId;
+  }
 }

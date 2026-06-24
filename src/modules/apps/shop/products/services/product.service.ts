@@ -190,4 +190,27 @@ export class ProductService {
 
     return updatedProduct!;
   }
+
+  async getSingleProductBySlug(slug: string) {
+    const product = await this.productRepository.findOne(
+      { slug },
+      {
+        relations: [
+          'category',
+          'category.parent',
+          'category.parent.parent',
+          'reviews',
+        ],
+      },
+    );
+
+    if (!product) return null;
+
+    const brand = await this.brandRepository.findOne({ name: product.brand });
+
+    return {
+      ...product,
+      brandSlug: brand?.slug,
+    };
+  }
 }

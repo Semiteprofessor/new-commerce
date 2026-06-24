@@ -122,4 +122,47 @@ export class ErpNextService {
       throw new Error(res.data?.message?.body);
     }
   }
+
+  async createOrder(order: Order) {
+    console.log(order);
+    const orderItems = order?.items?.map((item) => ({
+      item_code: item.product.erpSKUNumber,
+      product_name: item.product.productName,
+      price: item.price,
+      quantity: item.qty,
+      business_name: item.sellerBusinessName,
+      image: item.image,
+    }));
+
+    const requestBody = {
+      order_id: order?.id,
+      email: order?.user?.email,
+      user_id: order?.user.id,
+      subtotal: order?.subtotal,
+      shipping_address: order?.shippingAddress.id,
+      post_code: order?.shippingAddress.postalCode,
+      lga: order?.shippingAddress.lga,
+      discount: order?.discount,
+      shipping_fee: order?.shippingFee,
+      grand_total: order?.grandTotal,
+      payment_method: order?.paymentMethod,
+      status: order?.orderStatus,
+      items: orderItems,
+      coupon_code: order?.coupon?.code,
+    };
+
+    console.log('Sending Order:', requestBody);
+
+    const res = await this.apiClient.post(
+      'ecommerce.controllers.order_controller.create_new_order',
+      requestBody,
+    );
+
+    console.log(`Order successfully sent to ERPNext`);
+    console.log(requestBody);
+
+    console.log(res.data);
+
+    return res.data;
+  }
 }

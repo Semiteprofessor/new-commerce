@@ -185,4 +185,32 @@ export class ErpNextService {
       throw e;
     }
   }
+
+  async submitReturnRequest(data: ReturnRequest) {
+    try {
+      console.log(data);
+      //to-do: add the endpoint when available
+      const res = await this.apiClient.post(
+        'ecommerce.controllers.order_controller.return_request',
+        {
+          id: data.id,
+          orderItem: data.orderItem,
+          orderId: data.orderItem.order.id,
+          address: data.address,
+          quantity: data.quantity,
+          media: data.media,
+          reason: data.reason,
+          code: data.code,
+          comment: data.comment,
+          receipt: data.receipt,
+          status: data.status,
+        },
+      );
+
+      console.log(res.data.message.body);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
 }

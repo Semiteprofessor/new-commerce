@@ -218,3 +218,21 @@ export class UpdateUserDto {
   })
   userType: UserRole;
 }
+
+export class VerifyOtpDto {
+  @IsString()
+  @IsEmail()
+  @ApiProperty()
+  email: string;
+
+  @IsString()
+  @ApiProperty()
+  otp: string;
+}
+
+export class ResendOTPDto {
+  @IsString()
+  @IsEmail()
+  @ApiProperty()
+  email: string;
+}

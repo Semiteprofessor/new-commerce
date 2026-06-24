@@ -6,6 +6,8 @@ import { BusinessProfileRepository } from "src/modules/core/users/repositories/b
 import { UserRepository } from "src/modules/core/users/repositories/user.repository";
 import { ProductRepository } from "../repositories/product.repository";
 
+import slugify from 'slugify';
+
 const { customAlphabet } = require('nanoid');
 
 const alphabet = '0123456789xg';

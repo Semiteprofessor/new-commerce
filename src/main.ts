@@ -27,6 +27,32 @@ async function bootstrap() {
   /**
    * Swagger Configuration
    */
-  const options: SwaggerDocumentOptions = {};
+  const options: SwaggerDocumentOptions = {
+    operationIdFactory: (_, methodKey: string) => methodKey,
+  };
+
+  const config = new DocumentBuilder()
+    .setTitle('Rancho Api Documentation')
+    .setDescription('Apis for useflota app')
+    .addServer('https://rancho-commerce-api.vercel.app', 'Staging Server')
+    .addServer('http://localhost:3000', 'Local Server')
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'rancho-auth',
+    })
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config, options);
+  SwaggerModule.setup('api-docs', app, document);
+
+  const PORT = Number(process.env.PORT) || 5001;
+
+  const allowedOrigins = [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://staging-merchant.3xg.africa',
+    'https://staging-shop.3xg.africa',
+  ];
 }
 bootstrap();

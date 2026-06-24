@@ -174,5 +174,39 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
     //     },
     //   );
     // }
+
+    
+    if (minAmount !== undefined && maxAmount !== undefined) {
+      productQuery.andWhere(
+        'products.discounted_price BETWEEN :minPrice AND :maxPrice',
+        {
+          minPrice: minAmount,
+          maxPrice: maxAmount,
+        },
+      );
+    } else if (minAmount !== undefined) {
+      productQuery.andWhere('products.discounted_price >= :minPrice', {
+        minAmount,
+      });
+    } else if (maxAmount !== undefined) {
+      productQuery.andWhere('products.discounted_price <= :maxPrice', {
+        maxAmount,
+      });
+    }
+
+    if (discount) {
+      productQuery.andWhere('products.discount >= :discount', { discount });
+    }
+
+    if (startsAt && endsAt) {
+      productQuery.andWhere(
+        `products.createdAt BETWEEN :startsAt AND :endsAt`,
+        {
+          startsAt,
+          endsAt,
+        },
+      );
+    }
+
   }
 }

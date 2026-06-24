@@ -304,4 +304,111 @@ export class ProductService {
       pageInfo: result.pageInfo,
     };
   }
+
+  async buyNow(dto: BuyNowDto, actorUser: ActorUser) {
+    const product = await this.productRepository.findOne({ id: dto.productId });
+    if (!product) throw new NotFoundException('Product not found');
+    const user = await this.userRepository.findOne({ id: actorUser.id });
+
+    const shippingAddress = await this.shippingAddressRepository.findOne({
+      id: dto.shippingAddressId,
+    });
+    if (!shippingAddress)
+      throw new NotFoundException('Shipping address not found');
+
+    const business = await this.businessRepository.findOne({
+      owner: { id: product.merchantId },
+    });
+    if (!business) throw new NotFoundException('Business not found');
+
+    let price =
+      product.discounted_price > 0
+        ? product.discounted_price
+        : product.actual_price;
+    let itemsPrice = price * dto.quantity;
+    let shippingResponse =
+      await this.shippingAddressService.calculateShippingFeeWithoutCart(
+        actorUser,
+        {
+          latitude: shippingAddress.latitude,
+          longitude: shippingAddress.longitude,
+          address: shippingAddress.address,
+        },
+        product.merchantId,
+        dto.quantity,
+      );
+    let shippingFee = shippingResponse ? shippingResponse?.shippingFee : 0;
+
+    const order = await this.orderRepository.create({
+      user,
+      shippingAddress,
+      paymentMethod: dto.paymentMethod,
+      items: [],
+      subtotal: itemsPrice,
+      discount: 0,
+      shippingFee,
+      grandTotal: Number(itemsPrice) + Number(shippingFee),
+    });
+    console.log(order);
+    const orderItem = await this.orderItemRepository.create({
+      order,
+      product,
+      qty: dto.quantity,
+      price: product.actual_price,
+      discountedPrice: product.discounted_price,
+      merchant: product.merchant,
+      merchantId: product.merchantId,
+      productId: product.id,
+      sellerBusinessName: business.name,
+      orderItemCode: `${nanoid(8)}`.toUpperCase(),
+    });
+
+    order.items.push(orderItem);
+    const merchant = await this.userRepository.findOne({
+      id: product.merchantId,
+    });
+    this.eventEmitter.emit(UserEvents.SEND_ORDER_CREATED, {
+      email: merchant.email,
+      firstName: merchant.firstName,
+      products: [
+        {
+          name: product.productName,
+          price,
+          quantity: product.quantity,
+          image: product.images?.[0]?.url,
+          warranty: product.warranty,
+          skuNumber: product.erpSKUNumber,
+          orderId: order.id,
+          date: order.createdAt,
+        },
+      ],
+      orderUrl: `${process.env.APP_URL}`,
+    });
+
+    this.eventEmitter.emit(UserEvents.SEND_ORDER_INVOICE, {
+      orderId: order.id,
+      email: order.user.email,
+      firstName: order.user.firstName,
+      lastName: order.user.lastName,
+      items: [
+        {
+          name: product.productName,
+          price,
+          quantity: product.quantity,
+          image: product.images?.[0]?.url,
+        },
+      ],
+      paymentMethod: order.paymentMethod,
+      date: order.createdAt,
+      shippingAddress: order.shippingAddress,
+      subtotal: order.subtotal,
+      shippingFee: order.shippingFee,
+      discount: order.discount,
+      total: order.grandTotal,
+      orderUrl: `${this.configService.get('SHOPPERS_URL')}/profile/orders/${order?.id}/track`,
+    });
+
+    await this.erpQueueService.enqueueCreateErpNextOrder(order);
+    return order;
+  }
 }

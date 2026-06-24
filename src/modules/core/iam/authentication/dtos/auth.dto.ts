@@ -93,4 +93,34 @@ export class SignupDto {
   @IsOptional()
   @ApiProperty()
   business_category: string[];
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsOptional()
+  @IsArray()
+  @ApiProperty()
+  business_section: string[];
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  businessAddress: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  businessLocationLat: number;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  businessLocationLong: number;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  accountName: string;
 }

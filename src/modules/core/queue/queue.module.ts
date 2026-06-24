@@ -1,22 +1,22 @@
-import { BullModule } from "@nestjs/bullmq";
-import { Global, Module } from "@nestjs/common";
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { BullModule } from '@nestjs/bullmq';
+import { Global, Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Global()
 @Module({
-    imports: [
-        BullModule.forRootAsync({
-            imports: [ConfigModule],
-            useFactory: async (ConfigService: ConfigService) => ({
-                connection: {
-                    host: ConfigService.get<string>("REDIS_HOST"),
-                    port: Number(ConfigService.get<number>("REDIS_PORT")),
-                    password: configService.get<string>('REDIS_PASSWORD'),
-                }
-            }),
-            inject: [ConfigService],
-        }),
-        BullModule.registerQueue({
+  imports: [
+    BullModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (ConfigService: ConfigService) => ({
+        connection: {
+          host: ConfigService.get<string>('REDIS_HOST'),
+          port: Number(ConfigService.get<number>('REDIS_PORT')),
+          password: configService.get<string>('REDIS_PASSWORD'),
+        },
+      }),
+      inject: [ConfigService],
+    }),
+    BullModule.registerQueue({
       name: `3xg Shop`,
     }),
     BullModule.registerQueue({
@@ -35,5 +35,17 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
       name: '3xg Webhooks',
     }),
     ErpnextModule,
-    ]
+  ],
+  providers: [
+    QueueService,
+    UsersSyncProcessor,
+    ProductsSyncProcessor,
+    ShopProcessor,
+    OrdersSyncProcessor,
+    ReturnsSyncProcessor,
+    ErpnextQueueService,
+    SlackService,
+  ],
+  exports: [ErpnextQueueService, QueueService],
 })
+export class QueueModule {}

@@ -4,6 +4,7 @@ import { ProductService } from 'src/modules/apps/shop/products/services/product.
 import axios from 'axios';
 import { User } from 'src/modules/core/users/entities/user.entity';
 import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
+import { Product } from 'src/modules/apps/shop/products/entities/product.entity';
 @Injectable()
 export class ErpNextService {
   private readonly apiClient;

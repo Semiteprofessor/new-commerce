@@ -1,6 +1,7 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MinLength, ValidateIf } from 'class-validator';
+import { IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MinLength, ValidateIf } from 'class-validator';
+import { UserRole } from 'src/modules/common/enums/role.enum';
 
 export class CommonFields {
   @IsString()
@@ -174,4 +175,46 @@ export class UpdateUserInfoDto {
   @IsOptional()
   @ApiPropertyOptional()
   gender?: string;
+}
+
+export class UpdateUserDto {
+  @IsOptional()
+  @IsString()
+  @ApiProperty()
+  fcmToken: string;
+
+  @IsString()
+  @ApiProperty()
+  companyName: string;
+
+  @IsOptional()
+  @IsUrl()
+  @ApiProperty()
+  profilePhoto?: string;
+
+  @ApiProperty()
+  phone: string;
+
+  @IsOptional()
+  @ApiProperty()
+  zip?: string;
+
+  @IsOptional()
+  @ApiProperty()
+  phone2: string;
+
+  @IsOptional()
+  @ApiProperty()
+  state: string;
+
+  @IsOptional()
+  @ApiProperty()
+  address: string;
+
+  @IsEnum(UserRole, { message: 'user type must be either business or driver' })
+  @ApiProperty({
+    enum: UserRole,
+    description: 'Specify if the profile is for a business or driver',
+  })
+  userType: UserRole;
 }

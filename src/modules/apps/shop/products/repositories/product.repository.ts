@@ -98,5 +98,37 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
   async findAllByQueryBuilder(
     query: QueryParamsDto,
     category?: Category,
-  ): Promise<PaginatedRecordsDto<Product>> {}
+  ): Promise<PaginatedRecordsDto<Product>> {const {
+    status,
+    shortage,
+    sortOrder,
+    startsAt,
+    endsAt,
+    sortBy,
+    limit,
+    page,
+    userId,
+    categoryId,
+    brand,
+    actualPrice,
+    discountedPrice,
+    minAmount,
+    maxAmount,
+    color,
+    discount,
+    search,
+  } = query;
+
+  const productQuery = this._productRepository
+    .createQueryBuilder('products')
+    .where('products.deletedAt is null');
+  if (category) {
+    const descendants =
+      await this._categoryRepository.findDescendants(category);
+    const categoryIds = descendants.map((cat) => cat.id);
+    productQuery.andWhere('products.categoryId IN (:...categoryIds)', {
+      categoryIds,
+    });
+  }
+}
 }

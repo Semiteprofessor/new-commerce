@@ -148,3 +148,30 @@ export class SignupDto {
   @IsOptional()
   businessDocument?: string;
 }
+
+export class UpdateUserInfoDto {
+  @IsString()
+  @IsOptional()
+  @Transform(({ value }) => value.toLowerCase().trim())
+  @ApiProperty()
+  firstName: string;
+
+  @IsString()
+  @Transform(({ value }) => value.toLowerCase().trim())
+  @ApiProperty()
+  lastName: string;
+
+  @IsNotEmpty()
+  @IsEnum(['customer', 'merchant'])
+  role: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  phone: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  gender?: string;
+}

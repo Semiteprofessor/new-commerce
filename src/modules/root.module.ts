@@ -5,6 +5,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import appConfig from './config/app.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IamModule } from './core/iam/iam.module';
+import { UserModule } from './core/users/user.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -21,6 +23,9 @@ import { IamModule } from './core/iam/iam.module';
       inject: [ConfigService],
     }),
     IamModule,
+    UserModule,
   ],
+  controllers: [],
+  providers: [{provide: APP_INTERCEPTOR, useClass: AppInterceptor}]
 })
 export class AppModule {}

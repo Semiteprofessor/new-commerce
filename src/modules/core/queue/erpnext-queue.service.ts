@@ -3,6 +3,7 @@ import { Queue } from 'bullmq';
 import { User } from '../users/entities/user.entity';
 import { Product } from 'src/modules/apps/shop/products/entities/product.entity';
 import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
+import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
 
 export class ErpnextQueueService {
   constructor(
@@ -43,6 +44,28 @@ export class ErpnextQueueService {
   async enqueueCreateErpNextProduct(product: Product) {
     try {
       await this.erpProductsQueue.add('create-product', product, {
+        removeOnFail: false,
+        removeOnComplete: false,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async enqueueCreateErpNextOrder(order: Order) {
+    try {
+      await this.erpOrdersQueue.add('create-order', order, {
+        removeOnFail: false,
+        removeOnComplete: false,
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async enqueueNewsLetterSubscription(data) {
+    try {
+      await this.erpUsersQueue.add('subscribe-to-newsletter', data, {
         removeOnFail: false,
         removeOnComplete: false,
       });

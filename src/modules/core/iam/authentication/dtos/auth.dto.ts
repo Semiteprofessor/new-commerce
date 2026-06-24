@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEmail, IsNotEmpty, IsOptional, IsString, Matches, ValidateIf } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MinLength, ValidateIf } from 'class-validator';
 
 export class CommonFields {
   @IsString()
@@ -50,4 +50,24 @@ export class SignupDto {
   @Transform(({ value }) => value.toLowerCase().trim())
   @ApiProperty()
   lastName: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @MinLength(8)
+  @ApiProperty()
+  password: string;
+
+  @IsNotEmpty()
+  @IsEnum(['customer', 'merchant'])
+  role: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  username: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiProperty()
+  phone: string;
 }

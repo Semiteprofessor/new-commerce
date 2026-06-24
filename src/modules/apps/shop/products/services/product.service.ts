@@ -7,6 +7,9 @@ import { UserRepository } from "src/modules/core/users/repositories/user.reposit
 import { ProductRepository } from "../repositories/product.repository";
 
 import slugify from 'slugify';
+import { CreateProductDto } from "../dto/product.dto";
+import { ActorUser } from "src/modules/common/types/user.types";
+import { Product } from "../entities/product.entity";
 
 const { customAlphabet } = require('nanoid');
 

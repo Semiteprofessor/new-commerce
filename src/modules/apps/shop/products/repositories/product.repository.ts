@@ -4,7 +4,7 @@ import { Product, Product as ProductEntity } from '../entities/product.entity';
 import { Category } from "src/modules/apps/categories/entities/category.entity";
 import { EntityManager, Repository, TreeRepository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
-import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
+import { PageInfo, PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
 
 @Injectable()
 export class ProductRepository extends EntityRepository<ProductEntity> {
@@ -175,7 +175,6 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
     //   );
     // }
 
-    
     if (minAmount !== undefined && maxAmount !== undefined) {
       productQuery.andWhere(
         'products.discounted_price BETWEEN :minPrice AND :maxPrice',
@@ -243,5 +242,37 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
 
     const data = await productQuery.getMany();
 
+    const pageInfo: PageInfo = {
+      total: totalCount,
+      page: query.page,
+      limit: query.limit,
+      totalPages: Math.ceil(totalCount / limit),
+    };
+
+    return { data, pageInfo };
+  }
+
+  async findSingleByQueryBuilder(
+    query: QueryParamsDto,
+  ): Promise<Product | null> {
+    const { productId, userId } = query;
+
+    const productQuery = this._productRepository
+      .createQueryBuilder('products')
+      .where('products.deletedAt is null');
+
+    if (productId) {
+      productQuery.andWhere('products.id = :productId', { productId });
+    } else {
+      throw new BadRequestException('Product ID is required.');
+    }
+
+    if (userId) {
+      productQuery.andWhere('products.merchantId = :merchantId', {
+        merchantId: userId,
+      });
+    }
+
+    return await productQuery.getOne();
   }
 }

@@ -1,6 +1,6 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { Transform } from "class-transformer";
-import { IsNotEmpty, IsString, Matches } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
+import { IsEmail, IsNotEmpty, IsString, Matches } from 'class-validator';
 
 export class CommonFields {
   @IsString()
@@ -12,4 +12,20 @@ export class CommonFields {
   @ApiProperty()
   @Matches(/^\d{11}$/, { message: 'Phone number must be 11 digits' })
   phone: string;
+}
+
+export class SignIn {
+  @IsEmail()
+  @ApiProperty()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  role: string;
 }

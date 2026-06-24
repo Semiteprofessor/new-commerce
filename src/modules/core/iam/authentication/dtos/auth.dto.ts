@@ -123,4 +123,28 @@ export class SignupDto {
   @IsNotEmpty()
   @ApiProperty()
   accountName: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  accountNumber: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  bankCode: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  bankName: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  businessDocument?: string;
 }

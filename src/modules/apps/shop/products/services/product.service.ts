@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { EventEmitter2 } from "@nestjs/event-emitter";
 import { ErpnextQueueService } from "src/modules/core/queue/erpnext-queue.service";
@@ -129,5 +129,21 @@ export class ProductService {
     }, {});
 
     return flattenedData;
+  }
+
+  //Merchant get all products
+  async getAllProducts(
+    query: QueryParamsDto,
+    userId?: string,
+  ): Promise<PaginatedRecordsDto<Product>> {
+    if (userId) query.userId = userId;
+    try {
+      return await this.productRepository.findAllByQueryBuilder(query);
+    } catch (e) {
+      throw new BadRequestException({
+        errorCode: '',
+        message: e.message,
+      });
+    }
   }
 }

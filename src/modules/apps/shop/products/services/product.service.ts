@@ -11,6 +11,7 @@ import { CreateProductDto } from "../dto/product.dto";
 import { ActorUser } from "src/modules/common/types/user.types";
 import { Product } from "../entities/product.entity";
 import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
+import { ErrorCodes } from "src/modules/common/error-codes.enum";
 
 const { customAlphabet } = require('nanoid');
 
@@ -270,5 +271,37 @@ export class ProductService {
       });
     }
     return product.merchantId !== userId;
+  }
+
+  async getProductsByCategory(categorySlug: string, query: QueryParamsDto) {
+    const category =
+      await this.categoryService.findCategoryBySlug(categorySlug);
+
+    const wishlistProducts = await this.wishlistRepository.find(
+      {},
+      { relations: ['products'] },
+    );
+    const wishlistProductIds = wishlistProducts
+      .map((wishlist) => wishlist.products.map((p) => p.id))
+      .flat();
+
+    if (!category) {
+      throw new NotFoundException({
+        errorCode: ErrorCodes.CATEGORY_NOT_FOUND,
+        message: 'Category not found',
+      });
+    }
+    query.categoryId = category.id;
+    let result = await this.productRepository.findAllByQueryBuilder(
+      query,
+      category,
+    );
+    return {
+      data: result.data.map((item) => ({
+        ...item,
+        isFavourite: wishlistProductIds.includes(item.id),
+      })),
+      pageInfo: result.pageInfo,
+    };
   }
 }

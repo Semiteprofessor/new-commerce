@@ -56,5 +56,41 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
       ]);
 
     const rawProducts = await productQuery.getRawMany();
+
+    const groupedProducts = rawProducts.reduce(
+      (acc, row) => {
+        // console.log(row);
+        const categoryName = row.categoryname || row.categories_name;
+        const categorySlug = row.categoryslug || row.categories_slug;
+
+        if (!categoryName || !categorySlug) {
+          console.error('Category name or slug is missing:', row);
+          return acc;
+        }
+
+        const product = {
+          id: row.products_id,
+          productName: row.products_productName,
+          category: row.products_categoryId,
+          actual_price: parseFloat(row.products_actual_price),
+          discounted_price: parseFloat(row.products_discounted_price),
+          quantity: row.products_quantity,
+          discount: row.products_discount,
+          isFavourite: wishlistProductIds.includes(row.products_id),
+          createdAt: row.products_createdAt,
+          images: row.products_images,
+          warranty: row.products_warranty,
+          model: row.products_model,
+          slug: row.products_slug,
+        };
+
+        acc.push(product);
+        return acc;
+      },
+      [],
+      // {} as Record<string, { categoryName: string; products: Product[] }>,
+    );
+
+    return { [categorySlug]: groupedProducts };
   }
 }

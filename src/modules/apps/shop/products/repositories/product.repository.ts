@@ -208,5 +208,40 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
       );
     }
 
+    if (shortage) {
+      productQuery.andWhere('products.quantity < :shortage', { shortage });
+    }
+
+    if (color) {
+      productQuery.andWhere('products.color::jsonb @> :color', {
+        color: JSON.stringify([{ color: query.color }]),
+      });
+    }
+
+    if (search) {
+      productQuery.andWhere(
+        '(products.productName ILIKE :search OR products.description ILIKE :search)',
+        { search: `%${search}%` },
+      );
+    }
+
+    const totalCount = await productQuery.clone().getCount();
+    const validSortColumns = [
+      'createdAt',
+      'actual_price',
+      'discounted_price',
+      'rating',
+    ];
+    const sortColumn = validSortColumns.includes(sortBy)
+      ? `products.${sortBy}`
+      : 'products.createdAt';
+
+    productQuery
+      .orderBy(sortColumn, sortOrder)
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const data = await productQuery.getMany();
+
   }
 }

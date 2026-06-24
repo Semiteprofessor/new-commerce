@@ -20,4 +20,16 @@
     ItranxitService,
     ReturnRequestRepository,
     ReturnRequestService,
+  ],
+  controllers: [OrdersController, ShippingAddressController],
+  exports: [
+    OrdersService,
+    OrderRepository,
+    OrderItemRepository,
+    ShippingAddressRepository,
+    ShippingAddressService,
+    BusinessProfileRepository,
+    ItranxitService,
+    ReturnRequestRepository, 
+    ReturnRequestService
   ],})

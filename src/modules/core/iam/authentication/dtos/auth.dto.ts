@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MinLength, ValidateIf } from 'class-validator';
+import { IsArray, IsBoolean, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsUrl, Matches, MinLength, ValidateIf } from 'class-validator';
 import { UserRole } from 'src/modules/common/enums/role.enum';
 
 export class CommonFields {
@@ -235,4 +235,32 @@ export class ResendOTPDto {
   @IsEmail()
   @ApiProperty()
   email: string;
+}
+
+export class ResetPassword {
+  @IsString()
+  @IsEmail()
+  @ApiProperty()
+  email: string;
+
+  @IsBoolean()
+  @IsOptional()
+  mobile?: boolean;
+}
+
+export class UpdatePassword {
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  email: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  password: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  otp: string;
 }

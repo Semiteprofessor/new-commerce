@@ -411,4 +411,27 @@ export class ProductService {
     await this.erpQueueService.enqueueCreateErpNextOrder(order);
     return order;
   }
+
+  async rateProduct(id: string, userId: string, dto: CreateReviewDto) {
+    const product = await this.productRepository.findOne({ id });
+
+    if (!product) throw new NotFoundException('Product not found');
+    const user = await this.userRepository.findOne({ id: userId });
+
+    const productRatedByUser = await this.reviewRepository.findOne({
+      product: { id },
+      user: { id: userId },
+    });
+
+    if (productRatedByUser)
+      throw new BadRequestException('You have rated this product already');
+    const review = await this.reviewRepository.create({
+      ...dto,
+      type: 'product',
+      user,
+      product,
+    });
+
+    return review;
+  }
 }

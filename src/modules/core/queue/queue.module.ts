@@ -2,6 +2,8 @@ import { BullModule } from '@nestjs/bullmq';
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { QueueService } from './queue.service';
+import { UsersSyncProcessor } from './processors/erpnext/erpnext-user.processor';
+import { ErpnextQueueService } from './erpnext-queue.service';
 
 @Global()
 @Module({
@@ -40,12 +42,12 @@ import { QueueService } from './queue.service';
   providers: [
     QueueService,
     UsersSyncProcessor,
-    ProductsSyncProcessor,
-    ShopProcessor,
-    OrdersSyncProcessor,
-    ReturnsSyncProcessor,
-    ErpnextQueueService,
-    SlackService,
+    // ProductsSyncProcessor,
+    // ShopProcessor,
+    // OrdersSyncProcessor,
+    // ReturnsSyncProcessor,
+    // ErpnextQueueService,
+    // SlackService,
   ],
   exports: [ErpnextQueueService, QueueService],
 })

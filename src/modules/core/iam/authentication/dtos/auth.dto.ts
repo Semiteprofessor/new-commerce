@@ -264,3 +264,29 @@ export class UpdatePassword {
   @ApiProperty()
   otp: string;
 }
+
+export class SubscribeToNewsletterDto {
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  email: string;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  @ApiProperty()
+  status: boolean;
+}
+
+export class ChangePasswordDto {
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  oldPassword: string;
+
+  @IsNotEmpty()
+  @IsString()
+  @ApiProperty()
+  newPassword: string;
+}
+
+export class CreateAdminDto extends CommonFields {}

@@ -74,4 +74,51 @@ export class ErpNextService {
       throw e;
     }
   }
+
+  /**
+   * Creates product on erpNext ana
+   * updates product with id & sku
+   * from response
+   * @param data
+   */
+  async createProduct(data: Product) {
+    const subCategories = data.category.children?.map((sub) => sub.name) || [];
+
+    const res = await this.apiClient.post(
+      'ecommerce.controllers.product_controller.add_item',
+      {
+        item_code: data.id,
+        product_name: data.productName,
+        category: data.category.name,
+        sub_category: subCategories.length > 0 ? subCategories[0] : null,
+        sub_sub_category: subCategories.length > 1 ? subCategories[1] : null,
+        actual_price: data.actual_price,
+        discounted_price: data.discounted_price,
+        discount: data.discount,
+        images: data.images,
+        rating: data.rating,
+        brand: data.brand,
+        description: data.description,
+        specifications: data.specification,
+        color: data.color,
+        quantity: data.quantity,
+        model: data.model,
+        weight: data.weight,
+        warranty: data.warranty,
+        merchant_id: data.merchantId,
+      },
+    );
+
+    if (res.data.message.status_code === 200) {
+      const { sku } = res.data.message.body;
+      await this.productService.updateProductAfterErpNextSubmission({
+        id: data.id,
+        sku,
+      });
+
+      console.log(`Product successfully updated with SKU: ${sku}`);
+    } else {
+      throw new Error(res.data?.message?.body);
+    }
+  }
 }

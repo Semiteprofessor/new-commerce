@@ -54,5 +54,23 @@ async function bootstrap() {
     'https://staging-merchant.3xg.africa',
     'https://staging-shop.3xg.africa',
   ];
+
+  app.enableCors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    // origin: ['*'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    credentials: true,
+  });
+
+  await app.listen(PORT, () => {
+    console.log(`Api is running on port ${PORT}`);
+  });
 }
 bootstrap();

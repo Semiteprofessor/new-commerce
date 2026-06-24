@@ -14,6 +14,7 @@ import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pag
 import { ErrorCodes } from "src/modules/common/error-codes.enum";
 import { UserEvents } from "src/modules/common/app.events";
 import { ProductStatuses } from "../enums/product.enum";
+import { BuyNowDto } from "../../cart/dto/cart";
 
 const { customAlphabet } = require('nanoid');
 
@@ -140,12 +141,14 @@ export class ProductService {
     userId?: string,
   ): Promise<PaginatedRecordsDto<Product>> {
     if (userId) query.userId = userId;
+
     try {
       return await this.productRepository.findAllByQueryBuilder(query);
     } catch (e) {
       throw new BadRequestException({
         errorCode: '',
-        message: e.message,
+        message:
+          e instanceof Error ? e.message : 'An unexpected error occurred',
       });
     }
   }

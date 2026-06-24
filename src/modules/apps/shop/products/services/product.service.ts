@@ -114,4 +114,20 @@ export class ProductService {
 
     return await this.productRepository.findAllByQueryBuilder(query, category);
   }
+
+  // for shoppers app and website
+  async getProductTl(): Promise<any> {
+    const data = await Promise.all([
+      this.productRepository.getProductsForTimeline('electronics'),
+      this.productRepository.getProductsForTimeline('phones-tablets'),
+      this.productRepository.getProductsForTimeline('computing'),
+      this.productRepository.getProductsForTimeline('home-appliances'),
+    ]);
+
+    const flattenedData = data.reduce((acc, categoryObj) => {
+      return { ...acc, ...categoryObj };
+    }, {});
+
+    return flattenedData;
+  }
 }

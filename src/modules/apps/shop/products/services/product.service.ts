@@ -24,6 +24,7 @@ import { ErrorCodes } from 'src/modules/common/error-codes.enum';
 import { UserEvents } from 'src/modules/common/app.events';
 import { ProductStatuses } from '../enums/product.enum';
 import { BuyNowDto } from '../../cart/dto/cart';
+import { BrandRepository } from 'src/modules/apps/brands/repositories/brand.repository';
 
 const { customAlphabet } = require('nanoid');
 
@@ -36,97 +37,97 @@ export class ProductService {
     private readonly productRepository: ProductRepository,
     private readonly businessRepository: BusinessProfileRepository,
     private readonly brandRepository: BrandRepository,
-    private readonly categoryService: CategoryService,
+    // private readonly categoryService: CategoryService,
     private readonly userRepository: UserRepository,
     private readonly eventEmitter: EventEmitter2,
-    private readonly erpQueueService: ErpnextQueueService,
-    private readonly wishlistRepository: WishlistRepository,
-    private readonly shippingAddressRepository: ShippingAddressRepository,
-    @Inject(forwardRef(() => ShippingAddressService))
-    private readonly shippingAddressService: ShippingAddressService,
-    private readonly orderRepository: OrderRepository,
-    private readonly orderItemRepository: OrderItemRepository,
-    private readonly reviewRepository: ReviewRepository,
+    // private readonly erpQueueService: ErpnextQueueService,
+    // private readonly wishlistRepository: WishlistRepository,
+    // private readonly shippingAddressRepository: ShippingAddressRepository,
+    // @Inject(forwardRef(() => ShippingAddressService))
+    // private readonly shippingAddressService: ShippingAddressService,
+    // private readonly orderRepository: OrderRepository,
+    // private readonly orderItemRepository: OrderItemRepository,
+    // private readonly reviewRepository: ReviewRepository,
     private readonly configService: ConfigService,
     private readonly erpQueueService: ErpnextQueueService,
   ) {}
 
-  async createProduct(actor: ActorUser, data: CreateProductDto): Promise<any> {
-    const {
-      categoryId,
-      actualPrice,
-      discountedPrice,
-      productName,
-      discount,
-      description,
-      quantity,
-      images,
-      brand,
-      model,
-      weight,
-      specification,
-      warranty,
-      color,
-    } = data;
+//   async createProduct(actor: ActorUser, data: CreateProductDto): Promise<any> {
+//     const {
+//       categoryId,
+//       actualPrice,
+//       discountedPrice,
+//       productName,
+//       discount,
+//       description,
+//       quantity,
+//       images,
+//       brand,
+//       model,
+//       weight,
+//       specification,
+//       warranty,
+//       color,
+//     } = data;
 
-    const businessProfile = await this.businessRepository.findOne({
-      owner: { id: actor.id },
-    });
+//     const businessProfile = await this.businessRepository.findOne({
+//       owner: { id: actor.id },
+//     });
 
-    if (!businessProfile) {
-      throw new Error('Business profile not found for this user.');
-    }
+//     if (!businessProfile) {
+//       throw new Error('Business profile not found for this user.');
+//     }
 
-    const category = await this.categoryService.findCategoryById(categoryId);
+//     const category = await this.categoryService.findCategoryById(categoryId);
 
-    const _product: Partial<Product> = {
-      productName,
-      discount,
-      merchantId: actor.id,
-      actual_price: parseFloat(String(actualPrice)),
-      specification,
-      discounted_price: discountedPrice,
-      description,
-      quantity,
-      images,
-      brand,
-      model,
-      weight,
-      category,
-      businessId: businessProfile.id,
-      warranty,
-      hasWarranty: !!warranty,
-      color,
-      slug: `${slugify(productName, { lower: true, strict: true })}-${nanoid()}`,
-    };
+//     const _product: Partial<Product> = {
+//       productName,
+//       discount,
+//       merchantId: actor.id,
+//       actual_price: parseFloat(String(actualPrice)),
+//       specification,
+//       discounted_price: discountedPrice,
+//       description,
+//       quantity,
+//       images,
+//       brand,
+//       model,
+//       weight,
+//       category,
+//       businessId: businessProfile.id,
+//       warranty,
+//       hasWarranty: !!warranty,
+//       color,
+//       slug: `${slugify(productName, { lower: true, strict: true })}-${nanoid()}`,
+//     };
 
-    const product = await this.productRepository.create(_product);
+//     const product = await this.productRepository.create(_product);
 
-    await this.erpQueueService.enqueueCreateErpNextProduct(product);
+//     await this.erpQueueService.enqueueCreateErpNextProduct(product);
 
-    return product;
-  }
+//     return product;
+//   }
 
   // for shoppers app and website
-  async getAllOpenProducts(
-    query: QueryParamsDto,
-  ): Promise<PaginatedRecordsDto<Product>> {
-    if (query.brandSlug) {
-      const brand = await this.brandRepository.findOne({
-        slug: query.brandSlug,
-      });
-      if (!brand)
-        throw new NotFoundException(`Brand with slug ${brand.slug} not found.`);
-      query.brand = brand.name;
-    }
-    let category;
-    if (query.categoryId) {
-      category = await this.categoryService.findCategoryById(query.categoryId);
-      if (!category) throw new NotFoundException(`Category not found .`);
-    }
+//   async getAllOpenProducts(
+//     query: QueryParamsDto,
+//   ): Promise<PaginatedRecordsDto<Product>> {
+//     if (query.brandSlug) {
+//       const brand = await this.brandRepository.findOne({
+//         slug: query.brandSlug,
+//       });
+//       if (!brand)
+//         throw new NotFoundException(`Brand with slug ${brand.slug} not found.`);
+//       query.brand = brand.name;
+//     }
+//     let category;
+//     if (query.categoryId) {
+//       category = await this.categoryService.findCategoryById(query.categoryId);
+//       if (!category) throw new NotFoundException(`Category not found .`);
+//     }
 
-    return await this.productRepository.findAllByQueryBuilder(query, category);
-  }
+//     return await this.productRepository.findAllByQueryBuilder(query, category);
+//   }
 
   // for shoppers app and website
   async getProductTl(): Promise<any> {
@@ -292,165 +293,165 @@ export class ProductService {
     return product.merchantId !== userId;
   }
 
-  async getProductsByCategory(categorySlug: string, query: QueryParamsDto) {
-    const category =
-      await this.categoryService.findCategoryBySlug(categorySlug);
+//   async getProductsByCategory(categorySlug: string, query: QueryParamsDto) {
+//     const category =
+//       await this.categoryService.findCategoryBySlug(categorySlug);
 
-    const wishlistProducts = await this.wishlistRepository.find(
-      {},
-      { relations: ['products'] },
-    );
-    const wishlistProductIds = wishlistProducts
-      .map((wishlist) => wishlist.products.map((p) => p.id))
-      .flat();
+//     const wishlistProducts = await this.wishlistRepository.find(
+//       {},
+//       { relations: ['products'] },
+//     );
+//     const wishlistProductIds = wishlistProducts
+//       .map((wishlist) => wishlist.products.map((p) => p.id))
+//       .flat();
 
-    if (!category) {
-      throw new NotFoundException({
-        errorCode: ErrorCodes.CATEGORY_NOT_FOUND,
-        message: 'Category not found',
-      });
-    }
-    query.categoryId = category.id;
-    let result = await this.productRepository.findAllByQueryBuilder(
-      query,
-      category,
-    );
-    return {
-      data: result.data.map((item) => ({
-        ...item,
-        isFavourite: wishlistProductIds.includes(item.id),
-      })),
-      pageInfo: result.pageInfo,
-    };
-  }
+//     if (!category) {
+//       throw new NotFoundException({
+//         errorCode: ErrorCodes.CATEGORY_NOT_FOUND,
+//         message: 'Category not found',
+//       });
+//     }
+//     query.categoryId = category.id;
+//     let result = await this.productRepository.findAllByQueryBuilder(
+//       query,
+//       category,
+//     );
+//     return {
+//       data: result.data.map((item) => ({
+//         ...item,
+//         isFavourite: wishlistProductIds.includes(item.id),
+//       })),
+//       pageInfo: result.pageInfo,
+//     };
+//   }
 
-  async buyNow(dto: BuyNowDto, actorUser: ActorUser) {
-    const product = await this.productRepository.findOne({ id: dto.productId });
-    if (!product) throw new NotFoundException('Product not found');
-    const user = await this.userRepository.findOne({ id: actorUser.id });
+//   async buyNow(dto: BuyNowDto, actorUser: ActorUser) {
+//     const product = await this.productRepository.findOne({ id: dto.productId });
+//     if (!product) throw new NotFoundException('Product not found');
+//     const user = await this.userRepository.findOne({ id: actorUser.id });
 
-    const shippingAddress = await this.shippingAddressRepository.findOne({
-      id: dto.shippingAddressId,
-    });
-    if (!shippingAddress)
-      throw new NotFoundException('Shipping address not found');
+//     const shippingAddress = await this.shippingAddressRepository.findOne({
+//       id: dto.shippingAddressId,
+//     });
+//     if (!shippingAddress)
+//       throw new NotFoundException('Shipping address not found');
 
-    const business = await this.businessRepository.findOne({
-      owner: { id: product.merchantId },
-    });
-    if (!business) throw new NotFoundException('Business not found');
+//     const business = await this.businessRepository.findOne({
+//       owner: { id: product.merchantId },
+//     });
+//     if (!business) throw new NotFoundException('Business not found');
 
-    let price =
-      product.discounted_price > 0
-        ? product.discounted_price
-        : product.actual_price;
-    let itemsPrice = price * dto.quantity;
-    let shippingResponse =
-      await this.shippingAddressService.calculateShippingFeeWithoutCart(
-        actorUser,
-        {
-          latitude: shippingAddress.latitude,
-          longitude: shippingAddress.longitude,
-          address: shippingAddress.address,
-        },
-        product.merchantId,
-        dto.quantity,
-      );
-    let shippingFee = shippingResponse ? shippingResponse?.shippingFee : 0;
+//     let price =
+//       product.discounted_price > 0
+//         ? product.discounted_price
+//         : product.actual_price;
+//     let itemsPrice = price * dto.quantity;
+//     let shippingResponse =
+//       await this.shippingAddressService.calculateShippingFeeWithoutCart(
+//         actorUser,
+//         {
+//           latitude: shippingAddress.latitude,
+//           longitude: shippingAddress.longitude,
+//           address: shippingAddress.address,
+//         },
+//         product.merchantId,
+//         dto.quantity,
+//       );
+//     let shippingFee = shippingResponse ? shippingResponse?.shippingFee : 0;
 
-    const order = await this.orderRepository.create({
-      user,
-      shippingAddress,
-      paymentMethod: dto.paymentMethod,
-      items: [],
-      subtotal: itemsPrice,
-      discount: 0,
-      shippingFee,
-      grandTotal: Number(itemsPrice) + Number(shippingFee),
-    });
-    console.log(order);
-    const orderItem = await this.orderItemRepository.create({
-      order,
-      product,
-      qty: dto.quantity,
-      price: product.actual_price,
-      discountedPrice: product.discounted_price,
-      merchant: product.merchant,
-      merchantId: product.merchantId,
-      productId: product.id,
-      sellerBusinessName: business.name,
-      orderItemCode: `${nanoid(8)}`.toUpperCase(),
-    });
+//     const order = await this.orderRepository.create({
+//       user,
+//       shippingAddress,
+//       paymentMethod: dto.paymentMethod,
+//       items: [],
+//       subtotal: itemsPrice,
+//       discount: 0,
+//       shippingFee,
+//       grandTotal: Number(itemsPrice) + Number(shippingFee),
+//     });
+//     console.log(order);
+//     const orderItem = await this.orderItemRepository.create({
+//       order,
+//       product,
+//       qty: dto.quantity,
+//       price: product.actual_price,
+//       discountedPrice: product.discounted_price,
+//       merchant: product.merchant,
+//       merchantId: product.merchantId,
+//       productId: product.id,
+//       sellerBusinessName: business.name,
+//       orderItemCode: `${nanoid(8)}`.toUpperCase(),
+//     });
 
-    order.items.push(orderItem);
-    const merchant = await this.userRepository.findOne({
-      id: product.merchantId,
-    });
-    this.eventEmitter.emit(UserEvents.SEND_ORDER_CREATED, {
-      email: merchant.email,
-      firstName: merchant.firstName,
-      products: [
-        {
-          name: product.productName,
-          price,
-          quantity: product.quantity,
-          image: product.images?.[0]?.url,
-          warranty: product.warranty,
-          skuNumber: product.erpSKUNumber,
-          orderId: order.id,
-          date: order.createdAt,
-        },
-      ],
-      orderUrl: `${process.env.APP_URL}`,
-    });
+//     order.items.push(orderItem);
+//     const merchant = await this.userRepository.findOne({
+//       id: product.merchantId,
+//     });
+//     this.eventEmitter.emit(UserEvents.SEND_ORDER_CREATED, {
+//       email: merchant.email,
+//       firstName: merchant.firstName,
+//       products: [
+//         {
+//           name: product.productName,
+//           price,
+//           quantity: product.quantity,
+//           image: product.images?.[0]?.url,
+//           warranty: product.warranty,
+//           skuNumber: product.erpSKUNumber,
+//           orderId: order.id,
+//           date: order.createdAt,
+//         },
+//       ],
+//       orderUrl: `${process.env.APP_URL}`,
+//     });
 
-    this.eventEmitter.emit(UserEvents.SEND_ORDER_INVOICE, {
-      orderId: order.id,
-      email: order.user.email,
-      firstName: order.user.firstName,
-      lastName: order.user.lastName,
-      items: [
-        {
-          name: product.productName,
-          price,
-          quantity: product.quantity,
-          image: product.images?.[0]?.url,
-        },
-      ],
-      paymentMethod: order.paymentMethod,
-      date: order.createdAt,
-      shippingAddress: order.shippingAddress,
-      subtotal: order.subtotal,
-      shippingFee: order.shippingFee,
-      discount: order.discount,
-      total: order.grandTotal,
-      orderUrl: `${this.configService.get('SHOPPERS_URL')}/profile/orders/${order?.id}/track`,
-    });
+//     this.eventEmitter.emit(UserEvents.SEND_ORDER_INVOICE, {
+//       orderId: order.id,
+//       email: order.user.email,
+//       firstName: order.user.firstName,
+//       lastName: order.user.lastName,
+//       items: [
+//         {
+//           name: product.productName,
+//           price,
+//           quantity: product.quantity,
+//           image: product.images?.[0]?.url,
+//         },
+//       ],
+//       paymentMethod: order.paymentMethod,
+//       date: order.createdAt,
+//       shippingAddress: order.shippingAddress,
+//       subtotal: order.subtotal,
+//       shippingFee: order.shippingFee,
+//       discount: order.discount,
+//       total: order.grandTotal,
+//       orderUrl: `${this.configService.get('SHOPPERS_URL')}/profile/orders/${order?.id}/track`,
+//     });
 
-    await this.erpQueueService.enqueueCreateErpNextOrder(order);
-    return order;
-  }
+//     await this.erpQueueService.enqueueCreateErpNextOrder(order);
+//     return order;
+//   }
 
-  async rateProduct(id: string, userId: string, dto: CreateReviewDto) {
-    const product = await this.productRepository.findOne({ id });
+//   async rateProduct(id: string, userId: string, dto: CreateReviewDto) {
+//     const product = await this.productRepository.findOne({ id });
 
-    if (!product) throw new NotFoundException('Product not found');
-    const user = await this.userRepository.findOne({ id: userId });
+//     if (!product) throw new NotFoundException('Product not found');
+//     const user = await this.userRepository.findOne({ id: userId });
 
-    const productRatedByUser = await this.reviewRepository.findOne({
-      product: { id },
-      user: { id: userId },
-    });
+//     const productRatedByUser = await this.reviewRepository.findOne({
+//       product: { id },
+//       user: { id: userId },
+//     });
 
-    if (productRatedByUser)
-      throw new BadRequestException('You have rated this product already');
-    const review = await this.reviewRepository.create({
-      ...dto,
-      type: 'product',
-      user,
-      product,
-    });
+//     if (productRatedByUser)
+//       throw new BadRequestException('You have rated this product already');
+//     const review = await this.reviewRepository.create({
+//       ...dto,
+//       type: 'product',
+//       user,
+//       product,
+//     });
 
-    return review;
-  }
+//     return review;
+//   }
 }

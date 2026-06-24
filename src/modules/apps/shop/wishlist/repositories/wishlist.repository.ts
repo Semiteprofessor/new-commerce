@@ -1,6 +1,6 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOptionsWhere, Repository } from "typeorm";
+import { FindOptionsWhere, In, Repository } from "typeorm";
 import { Wishlist } from "../entities/wishlist.entity";
 import { EntityRepository } from "src/db/repository/entity.repository";
 import { PageInfo, PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
@@ -91,5 +91,27 @@ export class WishlistRepository extends EntityRepository<Wishlist> {
     };
 
     return { data, pageInfo };
+  }
+
+  async updateWishlistProducts(
+    wishlistId: string,
+    products: Product[],
+  ): Promise<Wishlist> {
+    const wishlist = await this.findOne(
+      { id: wishlistId },
+      {
+        relations: {
+          products: true,
+        },
+      },
+    );
+
+    if (!wishlist) {
+      throw new NotFoundException('Wishlist not found.');
+    }
+
+    wishlist.products = products;
+
+    return this.entityRepository.save(wishlist);
   }
 }

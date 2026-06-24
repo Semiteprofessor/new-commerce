@@ -3,6 +3,8 @@ import { UserService } from '../services/user.service';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ActiveUser } from '../../iam/decorators/active-user.decorator';
 import { SubscribeToNewsletterDto, UpdateUserInfoDto } from '../../iam/authentication/dtos/auth.dto';
+import { ActorUser } from 'src/modules/common/types/user.types';
+import { User } from '../entities/user.entity';
 
 @Controller('v1')
 export class UserController {

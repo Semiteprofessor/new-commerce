@@ -8,6 +8,7 @@ import { IamModule } from './core/iam/iam.module';
 import { UserModule } from './core/users/user.module';
 import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppInterceptor } from './common/interceptors/app.interceptor';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
   imports: [
@@ -25,6 +26,8 @@ import { AppInterceptor } from './common/interceptors/app.interceptor';
     }),
     IamModule,
     UserModule,
+    EventEmitterModule.forRoot(),
+    QueueM
   ],
   controllers: [],
   providers: [{ provide: APP_INTERCEPTOR, useClass: AppInterceptor }],

@@ -12,6 +12,7 @@ import { ActorUser } from "src/modules/common/types/user.types";
 import { Product } from "../entities/product.entity";
 import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
 import { ErrorCodes } from "src/modules/common/error-codes.enum";
+import { UserEvents } from "src/modules/common/app.events";
 
 const { customAlphabet } = require('nanoid');
 
@@ -23,20 +24,20 @@ export class ProductService {
   constructor(
     private readonly productRepository: ProductRepository,
     private readonly businessRepository: BusinessProfileRepository,
-    // private readonly brandRepository: BrandRepository,
-    // private readonly categoryService: CategoryService,
+    private readonly brandRepository: BrandRepository,
+    private readonly categoryService: CategoryService,
     private readonly userRepository: UserRepository,
     private readonly eventEmitter: EventEmitter2,
     private readonly erpQueueService: ErpnextQueueService,
-    // private readonly wishlistRepository: WishlistRepository,
-    // private readonly shippingAddressRepository: ShippingAddressRepository,
-    // @Inject(forwardRef(() => ShippingAddressService))
-    // private readonly shippingAddressService: ShippingAddressService,
-    // private readonly orderRepository: OrderRepository,
-    // private readonly orderItemRepository: OrderItemRepository,
-    // private readonly reviewRepository: ReviewRepository,
+    private readonly wishlistRepository: WishlistRepository,
+    private readonly shippingAddressRepository: ShippingAddressRepository,
+    @Inject(forwardRef(() => ShippingAddressService))
+    private readonly shippingAddressService: ShippingAddressService,
+    private readonly orderRepository: OrderRepository,
+    private readonly orderItemRepository: OrderItemRepository,
+    private readonly reviewRepository: ReviewRepository,
     private readonly configService: ConfigService,
-    // private readonly erpQueueService: ErpnextQueueService,
+    private readonly erpQueueService: ErpnextQueueService,
   ) {}
 
   async createProduct(actor: ActorUser, data: CreateProductDto): Promise<any> {

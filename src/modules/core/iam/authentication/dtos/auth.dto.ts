@@ -1,6 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MinLength, ValidateIf } from 'class-validator';
+import { IsArray, IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, Matches, MinLength, ValidateIf } from 'class-validator';
 
 export class CommonFields {
   @IsString()
@@ -70,4 +70,27 @@ export class SignupDto {
   @IsOptional()
   @ApiProperty()
   phone: string;
+
+  @IsString()
+  @IsOptional()
+  @ApiPropertyOptional()
+  gender?: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  businessName: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsString()
+  @IsNotEmpty()
+  @ApiProperty()
+  business_type: string;
+
+  @ValidateIf((o) => o.role === 'merchant')
+  @IsArray()
+  @IsOptional()
+  @ApiProperty()
+  business_category: string[];
 }

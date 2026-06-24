@@ -1,20 +1,29 @@
-import { BadRequestException, forwardRef, Inject, Injectable, NotFoundException } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
-import { EventEmitter2 } from "@nestjs/event-emitter";
-import { ErpnextQueueService } from "src/modules/core/queue/erpnext-queue.service";
-import { BusinessProfileRepository } from "src/modules/core/users/repositories/business.repository";
-import { UserRepository } from "src/modules/core/users/repositories/user.repository";
-import { ProductRepository } from "../repositories/product.repository";
+import {
+  BadRequestException,
+  forwardRef,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ErpnextQueueService } from 'src/modules/core/queue/erpnext-queue.service';
+import { BusinessProfileRepository } from 'src/modules/core/users/repositories/business.repository';
+import { UserRepository } from 'src/modules/core/users/repositories/user.repository';
+import { ProductRepository } from '../repositories/product.repository';
 
 import slugify from 'slugify';
-import { CreateProductDto } from "../dto/product.dto";
-import { ActorUser } from "src/modules/common/types/user.types";
-import { Product } from "../entities/product.entity";
-import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
-import { ErrorCodes } from "src/modules/common/error-codes.enum";
-import { UserEvents } from "src/modules/common/app.events";
-import { ProductStatuses } from "../enums/product.enum";
-import { BuyNowDto } from "../../cart/dto/cart";
+import { CreateProductDto } from '../dto/product.dto';
+import { ActorUser } from 'src/modules/common/types/user.types';
+import { Product } from '../entities/product.entity';
+import {
+  PaginatedRecordsDto,
+  QueryParamsDto,
+} from 'src/modules/common/dtos/pagination.dto';
+import { ErrorCodes } from 'src/modules/common/error-codes.enum';
+import { UserEvents } from 'src/modules/common/app.events';
+import { ProductStatuses } from '../enums/product.enum';
+import { BuyNowDto } from '../../cart/dto/cart';
 
 const { customAlphabet } = require('nanoid');
 
@@ -164,7 +173,8 @@ export class ProductService {
     } catch (e) {
       throw new BadRequestException({
         errorCode: '',
-        message: e.message,
+        message:
+          e instanceof Error ? e.message : 'An unexpected error occurred',
       });
     }
   }

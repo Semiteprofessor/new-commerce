@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, tap, throwError } from 'rxjs';
 
 function dataIsPaginated(data: any): boolean {
   return !!data.data;
@@ -74,6 +74,41 @@ export class AppInterceptor implements NestInterceptor {
           handler,
           time: `${endTimestamp - startTimestamp}ms`,
         });
+      }),
+      catchError((exception) => {
+        const statusCode =
+          exception?.response?.status ?? exception?.status ?? 500;
+        const defaultErrorMessage = 'Something went wrong';
+        const errorCode = exception.response?.errorCode || '';
+        const message =
+          exception?.message || exception?.detail || defaultErrorMessage;
+
+        const exceptionStatus = statusCode == 500 ? 400 : statusCode;
+
+        const errorResponse = new HttpException(
+          {
+            status: statusCode,
+            errorCode,
+            message: statusCode == 500 ? defaultErrorMessage : message,
+            timestamp: new Date().toISOString(),
+          },
+          exceptionStatus,
+          {
+            cause: '',
+            description: '',
+          },
+        );
+        console.log(exception);
+        this.logger.error(`Error 🚨⚠️ 🚨 `, {
+          exceptionCode: exception?.status,
+          status: statusCode,
+          errorCode,
+          message: message,
+          timestamp: new Date().toISOString(),
+          method: req.method,
+          route: req.path,
+        });
+        return throwError(errorResponse);
       }),
     );
   }

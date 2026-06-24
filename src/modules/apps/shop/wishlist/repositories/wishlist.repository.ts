@@ -1,6 +1,6 @@
-import { Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { FindOptionsWhere, Repository } from "typeorm";
 import { Wishlist } from "../entities/wishlist.entity";
 import { EntityRepository } from "src/db/repository/entity.repository";
 import { PageInfo, PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
@@ -54,5 +54,42 @@ export class WishlistRepository extends EntityRepository<Wishlist> {
     };
 
     return { data: products, pageInfo };
+  }
+
+  async findByIds(
+    ids: string[],
+    query: QueryParamsDto,
+  ): Promise<PaginatedRecordsDto<Wishlist>> {
+    const {
+      sortBy = 'createdAt',
+      sortOrder = 'DESC',
+      limit = 10,
+      page = 1,
+    } = query;
+
+    if (!ids.length) {
+      throw new BadRequestException('Order IDs array cannot be empty.');
+    }
+
+    const whereClause: FindOptionsWhere<Wishlist> = {
+      id: In(ids),
+      deletedAt: null,
+    };
+
+    const [data, totalCount] = await this._wishlistRepository.findAndCount({
+      where: whereClause,
+      order: { [sortBy]: sortOrder.toUpperCase() as 'ASC' | 'DESC' },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
+
+    const pageInfo: PageInfo = {
+      total: totalCount,
+      page,
+      limit,
+      totalPages: Math.ceil(totalCount / limit),
+    };
+
+    return { data, pageInfo };
   }
 }

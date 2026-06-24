@@ -213,4 +213,35 @@ export class ProductService {
       brandSlug: brand?.slug,
     };
   }
+
+  async getSingleProductById(id: string, userId?: string) {
+    await this.productBelongsToMerchant(userId, id);
+    const product = await this.productRepository.findOne(
+      { id },
+      {
+        relations: [
+          'category',
+          'category.parent',
+          'category.parent.parent',
+          'reviews',
+        ],
+      },
+    );
+
+    if (!product) return null;
+    const brand = await this.brandRepository.findOne({ name: product.brand });
+
+    return {
+      ...product,
+      brandSlug: brand?.slug,
+    };
+  }
+
+  // update product sku after submitting to erpNext
+  async updateProductAfterErpNextSubmission(data): Promise<void> {
+    await this.productRepository.findOneAndUpdate(
+      { id: data.id },
+      { erpSKUNumber: data.sku },
+    );
+  }
 }

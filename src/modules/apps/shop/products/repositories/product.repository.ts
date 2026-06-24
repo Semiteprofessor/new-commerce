@@ -98,37 +98,81 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
   async findAllByQueryBuilder(
     query: QueryParamsDto,
     category?: Category,
-  ): Promise<PaginatedRecordsDto<Product>> {const {
-    status,
-    shortage,
-    sortOrder,
-    startsAt,
-    endsAt,
-    sortBy,
-    limit,
-    page,
-    userId,
-    categoryId,
-    brand,
-    actualPrice,
-    discountedPrice,
-    minAmount,
-    maxAmount,
-    color,
-    discount,
-    search,
-  } = query;
+  ): Promise<PaginatedRecordsDto<Product>> {
+    const {
+      status,
+      shortage,
+      sortOrder,
+      startsAt,
+      endsAt,
+      sortBy,
+      limit,
+      page,
+      userId,
+      categoryId,
+      brand,
+      actualPrice,
+      discountedPrice,
+      minAmount,
+      maxAmount,
+      color,
+      discount,
+      search,
+    } = query;
 
-  const productQuery = this._productRepository
-    .createQueryBuilder('products')
-    .where('products.deletedAt is null');
-  if (category) {
-    const descendants =
-      await this._categoryRepository.findDescendants(category);
-    const categoryIds = descendants.map((cat) => cat.id);
-    productQuery.andWhere('products.categoryId IN (:...categoryIds)', {
-      categoryIds,
-    });
+    const productQuery = this._productRepository
+      .createQueryBuilder('products')
+      .where('products.deletedAt is null');
+    if (category) {
+      const descendants =
+        await this._categoryRepository.findDescendants(category);
+      const categoryIds = descendants.map((cat) => cat.id);
+      productQuery.andWhere('products.categoryId IN (:...categoryIds)', {
+        categoryIds,
+      });
+    }
+
+    // Todo
+    // .andWhere('category.mpath LIKE :path', { path: `${category?.mpath}%` });
+    // Todo: Cache categories
+    // const categoryTreeCacheKey = `category_tree_${parentCategory.id}`;
+    // let categoryIds: number[];
+    //
+    // const cachedCategoryIds = await this.cacheManager.get(categoryTreeCacheKey);
+    // if (cachedCategoryIds) {
+    //   categoryIds = cachedCategoryIds;
+    // } else {
+    //   const descendants = await categoryTreeRepository.findDescendants(parentCategory);
+    //   categoryIds = descendants.map(cat => cat.id);
+    //   // Cache for 1 hour (or adjust based on how frequently categories change)
+    //   await this.cacheManager.set(categoryTreeCacheKey, categoryIds, { ttl: 3600 });
+    // }
+
+    if (userId) {
+      productQuery.andWhere('products.merchantId = :merchantId', {
+        merchantId: userId,
+      });
+    }
+
+    if (brand) {
+      productQuery.andWhere('products.brand = :brand', { brand });
+    }
+
+    // if (actualPrice) {
+    //   productQuery.andWhere('products.actual_price BETWEEN :minActualPrice AND :maxActualPrice', {
+    //     minActualPrice: Number(actualPrice) * 0.8,
+    //     maxActualPrice: Number(actualPrice) * 1.2,
+    //   });
+    // }
+
+    // if (discountedPrice) {
+    //   productQuery.andWhere(
+    //     'products.discounted_price BETWEEN :minDiscountedPrice AND :maxDiscountedPrice',
+    //     {
+    //       minDiscountedPrice: Number(discountedPrice) * 0.8,
+    //       maxDiscountedPrice: Number(discountedPrice) * 1.2,
+    //     },
+    //   );
+    // }
   }
-}
 }

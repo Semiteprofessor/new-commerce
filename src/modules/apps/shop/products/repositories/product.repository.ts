@@ -1,10 +1,19 @@
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
-import { EntityRepository } from "src/db/repository/entity.repository";
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
+import { EntityRepository } from 'src/db/repository/entity.repository';
 import { Product, Product as ProductEntity } from '../entities/product.entity';
-import { Category } from "src/modules/apps/categories/entities/category.entity";
-import { EntityManager, Repository, TreeRepository } from "typeorm";
-import { InjectRepository } from "@nestjs/typeorm";
-import { PageInfo, PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
+import { Category } from 'src/modules/apps/categories/entities/category.entity';
+import { EntityManager, Repository, TreeRepository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import {
+  PageInfo,
+  PaginatedRecordsDto,
+  QueryParamsDto,
+} from 'src/modules/common/dtos/pagination.dto';
+import { WishlistRepository } from '../../wishlist/repositories/wishlist.repository';
 
 @Injectable()
 export class ProductRepository extends EntityRepository<ProductEntity> {
@@ -33,7 +42,11 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
 
     const wishlistProducts = await this.wishlistRepository.find(
       {},
-      { relations: ['products'] },
+      {
+        relations: {
+          products: true,
+        },
+      },
     );
     const wishlistProductIds = wishlistProducts
       .map((wishlist) => wishlist.products.map((p) => p.id))

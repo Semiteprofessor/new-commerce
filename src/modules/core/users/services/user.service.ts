@@ -12,6 +12,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { UserStatus } from 'src/modules/common/enums/role.enum';
 import { ErpnextQueueService } from '../../queue/erpnext-queue.service';
 import { AppEvents } from 'src/modules/common/app.events';
+import { SignupDto, SubscribeToNewsletterDto } from '../../iam/authentication/dtos/auth.dto';
 // import { BusinessService } from '../../business/business.service';
 // import { Business } from '../../business/business.entity';
 

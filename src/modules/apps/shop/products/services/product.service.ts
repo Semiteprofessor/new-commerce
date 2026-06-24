@@ -13,6 +13,7 @@ import { Product } from "../entities/product.entity";
 import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
 import { ErrorCodes } from "src/modules/common/error-codes.enum";
 import { UserEvents } from "src/modules/common/app.events";
+import { ProductStatuses } from "../enums/product.enum";
 
 const { customAlphabet } = require('nanoid');
 
@@ -197,12 +198,14 @@ export class ProductService {
     const product = await this.productRepository.findOne(
       { slug },
       {
-        relations: [
-          'category',
-          'category.parent',
-          'category.parent.parent',
-          'reviews',
-        ],
+        relations: {
+          category: {
+            parent: {
+              parent: true,
+            },
+          },
+          reviews: true,
+        },
       },
     );
 
@@ -221,12 +224,14 @@ export class ProductService {
     const product = await this.productRepository.findOne(
       { id },
       {
-        relations: [
-          'category',
-          'category.parent',
-          'category.parent.parent',
-          'reviews',
-        ],
+        relations: {
+          category: {
+            parent: {
+              parent: true,
+            },
+          },
+          reviews: true,
+        },
       },
     );
 

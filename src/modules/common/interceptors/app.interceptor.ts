@@ -1,11 +1,13 @@
 import {
   CallHandler,
   ExecutionContext,
+  HttpException,
   Inject,
   NestInterceptor,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { map, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 
 function dataIsPaginated(data: any): boolean {
   return !!data.data;

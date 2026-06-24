@@ -162,4 +162,32 @@ export class ProductService {
       });
     }
   }
+
+  async updateShortageProduct(
+    productId: string,
+    quantity: number,
+    userId: string,
+  ): Promise<Product> {
+    const product = await this.productRepository.findOne({
+      id: productId,
+      merchantId: userId,
+    });
+
+    if (!product) {
+      throw new NotFoundException(`Product with ID ${productId} not found.`);
+    }
+
+    if (product.quantity > 5) {
+      throw new BadRequestException(`Product quantity is not in shortage.`);
+    }
+
+    const updatedProduct = await this.productRepository.findOneAndUpdate(
+      { id: productId },
+      {
+        quantity,
+      },
+    );
+
+    return updatedProduct!;
+  }
 }

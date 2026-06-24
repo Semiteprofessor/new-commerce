@@ -12,8 +12,7 @@ const alphabet = '0123456789xg';
 const nanoid = customAlphabet(alphabet, 10);
 
 @Injectable()
-export
-class ProductService {
+export class ProductService {
   constructor(
     private readonly productRepository: ProductRepository,
     private readonly businessRepository: BusinessProfileRepository,
@@ -32,4 +31,60 @@ class ProductService {
     private readonly configService: ConfigService,
     // private readonly erpQueueService: ErpnextQueueService,
   ) {}
+
+  async createProduct(actor: ActorUser, data: CreateProductDto): Promise<any> {
+    const {
+      categoryId,
+      actualPrice,
+      discountedPrice,
+      productName,
+      discount,
+      description,
+      quantity,
+      images,
+      brand,
+      model,
+      weight,
+      specification,
+      warranty,
+      color,
+    } = data;
+
+    const businessProfile = await this.businessRepository.findOne({
+      owner: { id: actor.id },
+    });
+
+    if (!businessProfile) {
+      throw new Error('Business profile not found for this user.');
+    }
+
+    const category = await this.categoryService.findCategoryById(categoryId);
+
+    const _product: Partial<Product> = {
+      productName,
+      discount,
+      merchantId: actor.id,
+      actual_price: parseFloat(String(actualPrice)),
+      specification,
+      discounted_price: discountedPrice,
+      description,
+      quantity,
+      images,
+      brand,
+      model,
+      weight,
+      category,
+      businessId: businessProfile.id,
+      warranty,
+      hasWarranty: !!warranty,
+      color,
+      slug: `${slugify(productName, { lower: true, strict: true })}-${nanoid()}`,
+    };
+
+    const product = await this.productRepository.create(_product);
+
+    await this.erpQueueService.enqueueCreateErpNextProduct(product);
+
+    return product;
+  }
 }

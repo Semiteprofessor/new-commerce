@@ -4,6 +4,7 @@ import { Product, Product as ProductEntity } from '../entities/product.entity';
 import { Category } from "src/modules/apps/categories/entities/category.entity";
 import { EntityManager, Repository, TreeRepository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
+import { PaginatedRecordsDto, QueryParamsDto } from "src/modules/common/dtos/pagination.dto";
 
 @Injectable()
 export class ProductRepository extends EntityRepository<ProductEntity> {
@@ -93,4 +94,9 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
 
     return { [categorySlug]: groupedProducts };
   }
+
+  async findAllByQueryBuilder(
+    query: QueryParamsDto,
+    category?: Category,
+  ): Promise<PaginatedRecordsDto<Product>> {}
 }

@@ -5,7 +5,7 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 function dataIsPaginated(data: any): boolean {
   return !!data.data;
@@ -35,6 +35,7 @@ export class AppInterceptor implements NestInterceptor {
 
     console.log(ip, userAgent);
 
+    const startTimestamp = Date.now();
     return next.handle().pipe(
       map((_data) => {
         const data = _data || {};
@@ -62,6 +63,17 @@ export class AppInterceptor implements NestInterceptor {
         }
 
         return response;
+      }),
+
+      tap(() => {
+        const endTimestamp = Date.now();
+        this.logger.info(`Request processed`, {
+          method,
+          url: originalUrl,
+          className,
+          handler,
+          time: `${endTimestamp - startTimestamp}ms`,
+        });
       }),
     );
   }

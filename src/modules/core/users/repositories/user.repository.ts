@@ -3,6 +3,7 @@ import { User } from '../entities/user.entity';
 import { EntityRepository } from 'src/db/repository/entity.repository';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
+import { PageInfo } from 'src/modules/common/dtos/pagination.dto';
 
 @Injectable()
 export class UserRepository extends EntityRepository<User> {
@@ -66,5 +67,43 @@ export class UserRepository extends EntityRepository<User> {
     };
 
     return { data, pageInfo };
+  }
+
+  async findUsers(ids: string[]): Promise<User[]> {
+    return this._userRepository
+      .createQueryBuilder('user')
+      .select([
+        'user.id',
+        'user.firstName',
+        'user.lastName',
+        'user.profilePhoto',
+      ])
+      .where('user.id IN (:...ids)', { ids })
+      .andWhere('user.isBanned = :isBanned', { isBanned: false })
+      .andWhere('user.isActivated = :isActivated', { isActivated: true })
+      .getRawMany();
+  }
+
+  // async update(id: string, data: Partial<User>): Promise<User> {
+  //   try {
+  //     await this._userRepository
+  //       .createQueryBuilder('user')
+  //       .update(User)
+  //       .set({ ...data })
+  //       .where('id = :id', { id })
+  //       .execute();
+  //     return this.findOne({ id });
+  //   } catch (e) {
+  //     throw e;
+  //   }
+  // }
+
+  async delete(id) {
+    return await this.dataSource.transaction(async (txnEntityMgr) => {});
+  }
+
+  async update(id: string, data: Partial<User>): Promise<User> {
+    await this._userRepository.update(id, data);
+    return this._userRepository.findOne({ where: { id } });
   }
 }

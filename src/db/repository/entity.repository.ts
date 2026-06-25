@@ -1,5 +1,5 @@
 import {
-    DeepPartial,
+  DeepPartial,
   FindManyOptions,
   FindOneOptions,
   FindOptionsWhere,

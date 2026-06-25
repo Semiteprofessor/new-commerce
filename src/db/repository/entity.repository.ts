@@ -5,6 +5,7 @@ import {
   FindOptionsWhere,
   QueryDeepPartialEntity,
   Repository,
+  SelectQueryBuilder,
 } from 'typeorm';
 
 export abstract class EntityRepository<T> {
@@ -40,5 +41,14 @@ export abstract class EntityRepository<T> {
   ): Promise<T | null> {
     await this.entityRepository.update(filterQuery, updateEntityData);
     return await this.findOne(filterQuery);
+  }
+
+  async deleteOne(filterQuery: FindOptionsWhere<T>): Promise<boolean> {
+    const result = await this.entityRepository.delete(filterQuery);
+    return result.affected > 0;
+  }
+
+  createQueryBuilder(alias?: string): SelectQueryBuilder<T> {
+    return this.entityRepository.createQueryBuilder(alias);
   }
 }

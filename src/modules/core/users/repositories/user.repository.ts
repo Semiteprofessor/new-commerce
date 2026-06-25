@@ -3,7 +3,7 @@ import { User } from '../entities/user.entity';
 import { EntityRepository } from 'src/db/repository/entity.repository';
 import { DataSource, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PageInfo } from 'src/modules/common/dtos/pagination.dto';
+import { PageInfo, PaginatedRecordsDto, QueryParamsDto } from 'src/modules/common/dtos/pagination.dto';
 
 @Injectable()
 export class UserRepository extends EntityRepository<User> {

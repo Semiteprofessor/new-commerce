@@ -1,5 +1,11 @@
 import { Transform } from 'class-transformer';
-import { IsOptional, IsIn, IsString, IsDateString } from 'class-validator';
+import {
+  IsOptional,
+  IsIn,
+  IsString,
+  IsDateString,
+  IsEnum,
+} from 'class-validator';
 
 enum SortOrder {
   ASC = 'ASC',
@@ -75,4 +81,37 @@ export class QueryParamsDto {
   @IsString()
   @IsOptional()
   courier: string;
+
+  @IsString()
+  @IsOptional()
+  type: string;
+
+  @IsString()
+  @IsOptional()
+  sortBy?: string = 'createdAt';
+
+  @IsEnum(SortOrder)
+  @IsOptional()
+  sortOrder?: SortOrder = SortOrder.DESC;
+
+  @IsOptional()
+  fromWalletId;
+
+  @IsOptional()
+  toWalletId;
+
+  @IsOptional()
+  minAmount?: number;
+
+  @IsOptional()
+  maxAmount?: number;
+
+  @IsOptional()
+  discount?: number;
+
+  @IsOptional()
+  color?: string;
+
+  @IsOptional()
+  search?: string;
 }

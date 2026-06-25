@@ -1,7 +1,9 @@
 import {
+    DeepPartial,
   FindManyOptions,
   FindOneOptions,
   FindOptionsWhere,
+  QueryDeepPartialEntity,
   Repository,
 } from 'typeorm';
 
@@ -20,5 +22,23 @@ export abstract class EntityRepository<T> {
     options?: FindOneOptions<T>,
   ): Promise<T | null> {
     return this.entityRepository.findOne({ where: filterQuery, ...options });
+  }
+
+  async create(createEntityData: DeepPartial<T>): Promise<T> {
+    const entity = this.entityRepository.create(createEntityData);
+    return await this.entityRepository.save(entity);
+  }
+
+  async insertMany(documents: DeepPartial<T>[]): Promise<T[]> {
+    const entities = this.entityRepository.create(documents);
+    return await this.entityRepository.save(entities);
+  }
+
+  async findOneAndUpdate(
+    filterQuery: FindOptionsWhere<T>,
+    updateEntityData: QueryDeepPartialEntity<T>,
+  ): Promise<T | null> {
+    await this.entityRepository.update(filterQuery, updateEntityData);
+    return await this.findOne(filterQuery);
   }
 }

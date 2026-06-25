@@ -6,6 +6,10 @@ import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
 
 import { Cart } from 'src/modules/apps/shop/cart/entities/cart.entity';
 import { CartItem } from 'src/modules/apps/shop/cart/entities/cart-item.entity';
+import { UserController } from './controllers/user.controller';
+import { UserService } from './services/user.service';
+import { UserRepository } from './repositories/user.repository';
+import { BusinessProfileRepository } from './repositories/business.repository';
 
 @Module({
   imports: [
@@ -17,7 +21,7 @@ import { CartItem } from 'src/modules/apps/shop/cart/entities/cart-item.entity';
 })
 export class UserModule implements OnModuleInit {
   constructor(private readonly userService: UserService) {
-    this.userService.createWalletForAllExistingUsers().then().catch();
+    // this.userService.createWalletForAllExistingUsers().then().catch();
   }
 
   async onModuleInit(): Promise<any> {

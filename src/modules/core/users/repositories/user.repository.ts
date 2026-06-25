@@ -28,4 +28,43 @@ export class UserRepository extends EntityRepository<User> {
       throw e;
     }
   }
+
+  async findAll(query: QueryParamsDto): Promise<PaginatedRecordsDto<User>> {
+    const { startsAt, sortOrder, sortBy, page, limit, endsAt, ...rest } = query;
+    const _query = this._userRepository.createQueryBuilder('users');
+
+    Object.entries(rest).forEach(([key, value]) => {
+      if (value) {
+        _query.andWhere(`users.${key} = :${key}`, { [key]: value });
+      }
+    });
+
+    if (startsAt && endsAt) {
+      _query.andWhere(`users.createdAt BETWEEN :startsAt AND :endsAt`, {
+        startsAt,
+        endsAt,
+      });
+    }
+
+    const totalCountQuery = _query.clone();
+
+    _query
+      .orderBy(`users.${sortBy}`, sortOrder)
+      .skip((page - 1) * limit)
+      .take(limit);
+
+    const [total, data] = await Promise.all([
+      totalCountQuery.getCount(),
+      _query.getMany(),
+    ]);
+
+    const pageInfo: PageInfo = {
+      total,
+      page: query.page,
+      limit: query.limit,
+      totalPages: Math.ceil(total / query.limit),
+    };
+
+    return { data, pageInfo };
+  }
 }

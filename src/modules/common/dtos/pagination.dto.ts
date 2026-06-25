@@ -115,3 +115,16 @@ export class QueryParamsDto {
   @IsOptional()
   search?: string;
 }
+
+
+export type PageInfo = {
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+};
+
+export class PaginatedRecordsDto<T> {
+  data: Array<T>;
+  pageInfo: PageInfo;
+}

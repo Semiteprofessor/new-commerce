@@ -3,6 +3,9 @@ import { Column, Entity, In, Index, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
 import { UserStatus } from 'src/modules/common/enums/role.enum';
+import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
+import { Cart } from 'src/modules/apps/shop/cart/entities/cart.entity';
+import { ShippingAddress } from 'src/modules/apps/shop/order/entities/shipping-address.entity';
 
 @Entity('users')
 @Index(['email', 'role'], { unique: true })

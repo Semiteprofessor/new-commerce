@@ -3,6 +3,7 @@ import { Column, Entity, Index, ManyToOne, OneToOne } from "typeorm";
 import { Order } from "./order.entity";
 import { Product } from "../../products/entities/product.entity";
 import { User } from "src/modules/core/users/entities/user.entity";
+import { OrderStatus } from "../enums/order.enum";
 
 @Entity('order_item')
 export class OrderItem extends BaseEntity {

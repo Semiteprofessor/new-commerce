@@ -9,6 +9,7 @@ import { ShippingAddress } from 'src/modules/apps/shop/order/entities/shipping-a
 import { Wishlist } from 'src/modules/apps/shop/wishlist/entities/wishlist.entity';
 import { ReturnRequest } from 'src/modules/apps/shop/order/entities/return-request.entity';
 import { Review } from 'src/modules/apps/shop/products/entities/review.entity';
+import { Warranty } from 'src/modules/apps/shop/warranty/entities/warranty.entity';
 
 @Entity('users')
 @Index(['email', 'role'], { unique: true })

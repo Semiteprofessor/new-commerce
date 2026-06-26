@@ -5,6 +5,7 @@ import { BusinessProfile } from "../../merchants/entities/business-profile.entit
 import { Review } from "./review.entity";
 import { Coupon } from "./coupon.entity";
 import { ProductStatuses } from "./enums/product.enum";
+import { Category } from "src/modules/apps/categories/entities/category.entity";
 
 @Entity('products')
 export class Product extends BaseEntity {

@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/db/entity/base.entity';
 import { User } from 'src/modules/core/users/entities/user.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Product } from '../../products/entities/product.entity';
 
 @Entity({ name: 'business_profile' })
 export class BusinessProfile extends BaseEntity {

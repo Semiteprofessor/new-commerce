@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, Index, OneToMany, Tree, TreeChildren, TreeParent, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, Index, ManyToOne, OneToMany, Tree, TreeChildren, TreeParent, UpdateDateColumn } from "typeorm";
 import { Product } from "../../shop/products/entities/product.entity";
 
 @Entity('categories')

@@ -1,4 +1,4 @@
-name: Deploying 3xg Api to EC2 server
+name: Deploying Rancho Commerce Api to EC2 server
 on:
   push:
     branches:

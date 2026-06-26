@@ -1,5 +1,5 @@
 import { BaseEntity } from "src/db/entity/base.entity";
-import { Column, Entity, Index, ManyToOne } from "typeorm";
+import { Column, Entity, Index, ManyToOne, OneToOne } from "typeorm";
 import { Order } from "./order.entity";
 import { Product } from "../../products/entities/product.entity";
 import { User } from "src/modules/core/users/entities/user.entity";
@@ -30,4 +30,33 @@ export class OrderItem extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: true })
   orderItemCode: string;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, nullable: false })
+  price: number;
+
+  @Column({ type: 'decimal', precision: 15, scale: 5, nullable: true })
+  discountedPrice: number;
+
+  @Column({ type: 'decimal', precision: 15, scale: 5, nullable: true })
+  commission: number;
+
+  @Column({ type: 'text', nullable: false })
+  sellerBusinessName: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  imeiNumber?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  shipmentCode?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  deliveryCode?: string;
+
+  @Column({ type: 'varchar', nullable: true, default: OrderStatus.PENDING })
+  status: string;
+
+  @OneToOne(() => ReturnRequest, (returnRequest) => returnRequest.orderItem, {
+    nullable: true,
+  })
+  returnRequest: ReturnRequest;
 }

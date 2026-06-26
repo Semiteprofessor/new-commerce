@@ -1,6 +1,7 @@
-import { BaseEntity } from "src/db/entity/base.entity";
-import { User } from "src/modules/core/users/entities/user.entity";
-import { Column, Entity, ManyToOne } from "typeorm";
+import { BaseEntity } from 'src/db/entity/base.entity';
+import { WarrantyStatus } from 'src/modules/common/enums/warranty.enu';
+import { User } from 'src/modules/core/users/entities/user.entity';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('warranty')
 export class Warranty extends BaseEntity {
@@ -24,4 +25,35 @@ export class Warranty extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: false })
   phone: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  claimant: string;
+
+  @Column({ type: 'varchar', nullable: false, default: WarrantyStatus.EXPIRED })
+  warrantyStatus?: string;
+
+  @Column({ type: 'boolean', nullable: false, default: false })
+  isWarrantyClaimed: boolean;
+
+  @Column({ type: 'timestamp', nullable: false })
+  warrantyExpiryDate?: Date;
+
+  @Column({ type: 'varchar', nullable: false })
+  pickupDate?: string;
+
+  @Column({ type: 'varchar', nullable: false })
+  pickupTime?: string;
+
+  @Column({ type: 'text', nullable: false })
+  deviceIssue: string;
+
+  @Column({ type: 'jsonb', nullable: false })
+  claimDetails?: {
+    brand_model: string;
+    address: string;
+    area: string;
+    pickupDate: string;
+    pickupTime: string;
+    deviceIssue: string;
+  };
 }

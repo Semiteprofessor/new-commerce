@@ -1,9 +1,21 @@
-import { BaseEntity } from "src/db/entity/base.entity";
-import { Column, Entity, ManyToOne, OneToMany } from "typeorm";
-import { ShippingAddress } from "./shipping-address.entity";
-import { OrderSource, OrderStatus } from "../enums/order.enum";
-import { OrderItem } from "./order-item.entity";
-import { User } from "src/modules/core/users/entities/user.entity";
+import { BaseEntity } from 'src/db/entity/base.entity';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { ShippingAddress } from './shipping-address.entity';
+import { OrderSource, OrderStatus } from '../enums/order.enum';
+import { OrderItem } from './order-item.entity';
+import { User } from 'src/modules/core/users/entities/user.entity';
+import { Coupon } from '../../products/entities/coupon.entity';
+
+// User selects items from cart ✅
+// Cart items are copied to OrderItems ✅
+// Stock is deducted from Product ✅
+// OrderStatus starts at PENDING ✅
+// Payment is processed ✅
+// Shipping and delivery tracking begins ✅
+/**
+ * Add total distance in km
+ * Add total shipping fee
+ */
 
 @Entity('orders')
 export class Order extends BaseEntity {
@@ -51,4 +63,25 @@ export class Order extends BaseEntity {
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   shipmentCode?: string;
+
+  @Column({ type: 'boolean', default: false })
+  shipmentCodeUsed?: boolean;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  deliveryCode?: string;
+
+  @Column({ type: 'boolean', default: false })
+  deliveryCodeUsed?: boolean;
+
+  @Column({ type: 'timestamp', nullable: true })
+  paidAt?: Date;
+
+  @Column({ type: 'timestamp', nullable: true })
+  deliveredAt?: Date;
+
+  @ManyToOne(() => Coupon, (coupon) => coupon.orders, {
+    nullable: true,
+    eager: true,
+  })
+  coupon: Coupon;
 }

@@ -1,0 +1,91 @@
+name: Deploying 3xg Api to EC2 server
+on:
+  push:
+    branches:
+      - master
+      - develop
+      - staging
+env:
+  ECR_REGISTRY: 637423646267.dkr.ecr.eu-north-1.amazonaws.com
+  ECR_REPOSITORY: rancho-commerce
+  AWS_REGION: eu-north-1
+
+concurrency:
+  group: ${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build , tag and Push Dev image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest-dev
+
+      - name: Build and Push Prod Image
+        if: github.ref == 'refs/heads/main'
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.ECR_DEV_REPOSITORY }}/${{ env.ECR_REPO_NAME }}:latest
+  deploy_to_prod:
+    needs: [build] # lets the build stage complete successfully before running this
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 Dev ⏳
+        uses: appleboy/ssh-action@master
+        if: github.ref == 'refs/heads/main'
+        with:
+          host: ${{ secrets.SSH_PROD_HOST }}
+          username: ${{ secrets.SSH_PROD_USER }}
+          password: ${{ secrets.SSH_PROD_SECRET }}
+          script: |
+            set -ex
+            export IMAGE_TAG=${{ github.sha }}
+            cd ~/api
+            aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+            docker compose pull api
+            docker compose down -v --remove-orphans
+            docker compose up -d --force-recreate api
+            docker image prune -af
+
+  deploy_to_dev:
+    needs: [build] # lets the build stage complete successfully before running this
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to EC2 Dev ⏳
+        uses: appleboy/ssh-action@master
+        if: github.ref == 'refs/heads/develop'
+        with:
+          host: ${{ secrets.SSH_DEV_HOST }}
+          username: ${{ secrets.SSH_DEV_USER }}
+          password: ${{ secrets.SSH_DEV_SECRET }}
+          script: |
+            set -ex
+            export IMAGE_TAG=${{ github.sha }}
+            cd ~/api
+            aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+            docker compose pull api
+            docker compose down -v --remove-orphans
+            docker compose up -d --force-recreate api
+            docker image prune -af

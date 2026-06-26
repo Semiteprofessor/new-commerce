@@ -6,6 +6,9 @@ import { UserStatus } from 'src/modules/common/enums/role.enum';
 import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
 import { Cart } from 'src/modules/apps/shop/cart/entities/cart.entity';
 import { ShippingAddress } from 'src/modules/apps/shop/order/entities/shipping-address.entity';
+import { Wishlist } from 'src/modules/apps/shop/wishlist/entities/wishlist.entity';
+import { ReturnRequest } from 'src/modules/apps/shop/order/entities/return-request.entity';
+import { Review } from 'src/modules/apps/shop/products/entities/review.entity';
 
 @Entity('users')
 @Index(['email', 'role'], { unique: true })

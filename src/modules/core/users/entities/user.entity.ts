@@ -58,4 +58,19 @@ export class User extends BaseEntity {
 
   @Column({ type: 'varchar', nullable: true, length: 20 })
   gender?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  address?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  role?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  region?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  fcmToken?: string;
+
+  @Column({ type: 'enum', enum: UserStatus, default: UserStatus.ACTIVE })
+  status: UserStatus;
 }

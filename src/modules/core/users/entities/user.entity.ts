@@ -2,6 +2,7 @@ import { BaseEntity } from 'src/db/entity/base.entity';
 import { Column, Entity, In, Index, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
+import { UserStatus } from 'src/modules/common/enums/role.enum';
 
 @Entity('users')
 @Index(['email', 'role'], { unique: true })
@@ -73,4 +74,45 @@ export class User extends BaseEntity {
 
   @Column({ type: 'enum', enum: UserStatus, default: UserStatus.ACTIVE })
   status: UserStatus;
+
+  @Column({ type: 'boolean', default: false })
+  isActivated: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  emailVerified: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  isBanned: boolean;
+
+  @Column({ type: 'varchar', nullable: true })
+  ipAddress: string;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
+
+  @OneToMany(() => Cart, (cart) => cart.user, { cascade: true })
+  carts: Cart[];
+
+  @OneToMany(() => ShippingAddress, (address) => address.user, {
+    cascade: true,
+  })
+  shippingAddresses: ShippingAddress[];
+
+  @OneToMany(() => Wishlist, (ws) => ws.user, { cascade: true })
+  wishlists: Wishlist[];
+
+  @OneToMany(() => Warranty, (wr) => wr.user, { cascade: true })
+  warranty: Warranty[];
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  newsLetterMail?: string;
+
+  @Column({ type: 'boolean', default: false })
+  subscribedToNewsletter: boolean;
+
+  @OneToMany(() => ReturnRequest, (r) => r.user, { cascade: true })
+  returnRequests: ReturnRequest[];
+
+  @OneToMany(() => Review, (review) => review.user)
+  reviews: Review[];
 }

@@ -1,6 +1,7 @@
 import { BaseEntity } from "src/db/entity/base.entity";
 import { User } from "src/modules/core/users/entities/user.entity";
 import { Column, Entity, Index, ManyToOne } from "typeorm";
+import { BusinessProfile } from "../../merchants/entities/business-profile.entity";
 
 @Entity('products')
 export class Product extends BaseEntity {
@@ -22,4 +23,36 @@ export class Product extends BaseEntity {
   @Column({ nullable: true })
   @Index()
   merchantId: string;
+
+  @ManyToOne(
+    () => BusinessProfile,
+    (businessProfile) => businessProfile.products,
+    {
+      nullable: false,
+      onDelete: 'CASCADE',
+    },
+  )
+  business: BusinessProfile;
+
+  @Column({ nullable: true })
+  @Index()
+  businessId: string;
+
+  @Column({ type: 'decimal', precision: 15, scale: 5, nullable: true })
+  actual_price: number;
+
+  @Column({ type: 'decimal', precision: 15, scale: 5, nullable: true })
+  discounted_price: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 4, default: 0 })
+  discount: number;
+
+  @Column('json', { nullable: true })
+  images: { url: string; alt?: string; type?: string }[];
+
+  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
+  rating: number;
+
+  @Column({ type: 'varchar', length: 255 })
+  brand: string;
 }

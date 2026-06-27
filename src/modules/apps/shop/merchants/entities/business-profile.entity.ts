@@ -1,5 +1,6 @@
 import { BaseEntity } from 'src/db/entity/base.entity';
-import { Column, Entity } from 'typeorm';
+import { User } from 'src/modules/core/users/entities/user.entity';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity({ name: 'business_profile' })
 export class BusinessProfile extends BaseEntity {
@@ -29,4 +30,31 @@ export class BusinessProfile extends BaseEntity {
 
   @Column({ type: 'json', nullable: true })
   businessSection?: string[];
+
+  @Column({ type: 'double precision', nullable: true })
+  businessLocationLat?: number;
+
+  @Column({ type: 'double precision', nullable: true })
+  businessLocationLong?: number;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  accountName?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  accountNumber?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  bankName?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  bankCode?: string;
+
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  document?: string;
+
+  @ManyToOne(() => User, (user) => user.businesses)
+  owner: User;
+
+  @OneToMany(() => Product, (product) => product.business)
+  products: Product[];
 }

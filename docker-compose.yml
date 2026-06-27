@@ -1,11 +1,9 @@
-version: '3'
-
 services:
   api:
-    image: 288761759814.dkr.ecr.eu-west-1.amazonaws.com/3xg-api:latest-dev
-    container_name: 3xg-api
+    image: 637423646267.dkr.ecr.eu-north-1.amazonaws.com/rancho-commerce:latest-dev
+    container_name: rancho-commerce
     ports:
-      - '8001:8000'
+      - '5001:5000'
     env_file: .env
     volumes:
       - /usr/src/app/node_modules

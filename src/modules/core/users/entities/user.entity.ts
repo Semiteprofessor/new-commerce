@@ -1,6 +1,7 @@
 import { BaseEntity } from 'src/db/entity/base.entity';
 import { Column, Entity, In, Index, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
 
 @Entity('users')
 @Index(['email', 'role'], { unique: true })
@@ -28,12 +29,33 @@ export class User extends BaseEntity {
   @Column({
     type: 'varchar',
     length: 255,
-    secret: false,
+    select: false,
     default: 'PLACEHOLDER_PASSWORD',
     nullable: true,
   })
   @Exclude({ toPlainOnly: true })
   password: string;
 
-  @OneToMany(() => Busine)
+  @OneToMany(() => BusinessProfile, (business) => business.owner, {
+    nullable: true,
+  })
+  businesses?: BusinessProfile;
+
+  @Column({ type: 'varchar', nullable: true })
+  countryCode: string;
+
+  @Column({ type: 'varchar', nullable: true, length: 20 })
+  phone?: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  postalCode: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  profilePhoto?: string;
+
+  @Column({ type: 'varchar', nullable: true, length: 20 })
+  phone2?: string;
+
+  @Column({ type: 'varchar', nullable: true, length: 20 })
+  gender?: string;
 }

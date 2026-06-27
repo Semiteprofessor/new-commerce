@@ -3,7 +3,7 @@ services:
     image: 637423646267.dkr.ecr.eu-north-1.amazonaws.com/rancho-commerce:latest-dev
     container_name: rancho-commerce
     ports:
-      - '5001:5000'
+      - '80:5001'
     env_file: .env
     volumes:
       - /usr/src/app/node_modules

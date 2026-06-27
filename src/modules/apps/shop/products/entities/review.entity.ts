@@ -1,7 +1,7 @@
-import { BaseEntity } from "src/db/entity/base.entity";
-import { Column, Entity, Index, ManyToOne } from "typeorm";
-import { Product } from "./product.entity";
-import { User } from "src/modules/core/users/entities/user.entity";
+import { BaseEntity } from 'src/db/entity/base.entity';
+import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { Product } from './product.entity';
+import { User } from 'src/modules/core/users/entities/user.entity';
 
 @Entity('reviews')
 export class Review extends BaseEntity {

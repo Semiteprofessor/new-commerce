@@ -5,4 +5,13 @@ import { Column, Entity } from 'typeorm';
 export class BusinessProfile extends BaseEntity {
   @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: false })
+  address: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  phone: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  email: string;
 }

@@ -55,4 +55,34 @@ export class Product extends BaseEntity {
 
   @Column({ type: 'varchar', length: 255 })
   brand: string;
+
+  @Column({ type: 'text' })
+  description: string;
+
+  @Column({ type: 'json', nullable: true })
+  specification: object[];
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  model: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  weight: string;
+
+  @Column({ type: 'json', nullable: true })
+  color: object[];
+
+  @Column({ type: 'int', default: 0 })
+  quantity: number;
+
+  @Column({ type: 'boolean', default: false })
+  hasWarranty: boolean;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  warranty: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  erpItemCode: string;
+
+  @Column({ type: 'varchar', length: 100, nullable: true })
+  erpSKUNumber: string;
 }

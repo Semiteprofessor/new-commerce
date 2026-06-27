@@ -1,6 +1,6 @@
 import { BaseEntity } from "src/db/entity/base.entity";
 import { User } from "src/modules/core/users/entities/user.entity";
-import { Column, Entity, Index, ManyToOne } from "typeorm";
+import { Column, Entity, Index, JoinTable, ManyToMany, ManyToOne, OneToMany } from "typeorm";
 import { BusinessProfile } from "../../merchants/entities/business-profile.entity";
 
 @Entity('products')
@@ -85,4 +85,34 @@ export class Product extends BaseEntity {
 
   @Column({ type: 'varchar', length: 100, nullable: true })
   erpSKUNumber: string;
+
+  @Column({ type: 'text', unique: true })
+  @Index()
+  slug: string;
+
+  @Column({
+    type: 'enum',
+    enum: ProductStatuses,
+    default: ProductStatuses.IN_REVIEW,
+  })
+  status: string;
+
+  @Column({
+    type: 'decimal',
+    precision: 15,
+    scale: 5,
+    nullable: true,
+    default: 0,
+  })
+  commission: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 4, default: 0 })
+  commissionPercentage: number;
+
+  @ManyToMany(() => Coupon, (coupon) => coupon.products)
+  @JoinTable()
+  coupons: Coupon[];
+
+  @OneToMany(() => Review, (review) => review.product)
+  reviews: Review[];
 }

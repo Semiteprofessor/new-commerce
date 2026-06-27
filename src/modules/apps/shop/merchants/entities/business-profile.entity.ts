@@ -14,4 +14,19 @@ export class BusinessProfile extends BaseEntity {
 
   @Column({ type: 'varchar', length: 255, nullable: true })
   email: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  website: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  logo?: string;
+
+  @Column({ type: 'varchar', length: 255, nullable: false })
+  businessType: string;
+
+  @Column({ type: 'json', nullable: false })
+  businessCategory: string[];
+
+  @Column({ type: 'json', nullable: true })
+  businessSection?: string[];
 }

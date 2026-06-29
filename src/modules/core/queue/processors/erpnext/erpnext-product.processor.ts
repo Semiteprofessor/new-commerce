@@ -1,5 +1,6 @@
-import { Processor, WorkerHost } from '@nestjs/bullmq';
+import { OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq';
 import { EventEmitter2 } from '@nestjs/event-emitter';
+import { Job } from 'bullmq';
 import { ErpNextService } from 'src/modules/erpnext/services/erpnext.service';
 
 @Processor('Rancho Product')
@@ -11,5 +12,17 @@ export class ProductsSyncProcessor extends WorkerHost {
     super();
   }
 
-  
+  async process(job: Job<any, any, string>): Promise<any> {
+    try {
+      await this.erpNextService.createProduct(job.data);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  @OnWorkerEvent('completed')
+  onCompleted() {
+    // do some stuff
+  }
 }

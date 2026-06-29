@@ -5,6 +5,7 @@ import { User } from 'src/modules/core/users/entities/user.entity';import { Wish
 import { WishlistRepository } from './repositories/wishlist.repository';
 import { ProductRepository } from '../products/repositories/product.repository';
 import { UserRepository } from 'src/modules/core/users/repositories/user.repository';
+import { WishlistService } from './services/wishlist.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Product, User, Wishlist])],

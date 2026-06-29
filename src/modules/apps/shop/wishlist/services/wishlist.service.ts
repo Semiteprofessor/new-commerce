@@ -37,8 +37,16 @@ export class WishlistService {
     }
 
     let wishlist = await this.wishlistRepository.findOne(
-      { user: { id: userId } },
-      { relations: ['products'] },
+      {
+        user: {
+          id: userId,
+        },
+      },
+      {
+        relations: {
+          products: true,
+        },
+      },
     );
 
     if (wishlist && wishlist.products.some((p) => p.id === productId)) {
@@ -92,9 +100,17 @@ export class WishlistService {
   }
 
   async removeFromWishlist(userId: string, productId: string): Promise<void> {
-    const wishlistItem = await this.wishlistRepository.findOne(
-      { user: { id: userId } },
-      { relations: ['products'] },
+    let wishlistItem = await this.wishlistRepository.findOne(
+      {
+        user: {
+          id: userId,
+        },
+      },
+      {
+        relations: {
+          products: true,
+        },
+      },
     );
 
     if (!wishlistItem) {

@@ -1,15 +1,24 @@
-import { BadRequestException, ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ConflictException,
+  BadRequestException,
+} from '@nestjs/common';
+import { Wishlist } from '../entities/wishlist.entity';
 import { WishlistRepository } from '../repositories/wishlist.repository';
 import { UserRepository } from 'src/modules/core/users/repositories/user.repository';
 import { ProductRepository } from '../../products/repositories/product.repository';
-import { Wishlist } from '../entities/wishlist.entity';
+import {
+  PaginatedRecordsDto,
+  QueryParamsDto,
+} from 'src/modules/common/dtos/pagination.dto';
 
 @Injectable()
 export class WishlistService {
   constructor(
-    private readonly wishlistRepository: WishlistRepository,
+    private wishlistRepository: WishlistRepository,
     private readonly userRepository: UserRepository,
-    private readonly productRepository: ProductRepository,
+    private productRepository: ProductRepository,
   ) {}
 
   async addToWishlist(productId: string, userId: string): Promise<Wishlist> {
@@ -50,5 +59,55 @@ export class WishlistService {
     }
 
     return wishlist;
+  }
+
+  async getWishlist(userId: string, query: QueryParamsDto): Promise<any> {
+    const { page = 1, limit = 10 } = query;
+
+    const wishlistQuery = this.wishlistRepository
+      .createQueryBuilder('wishlist')
+      .leftJoinAndSelect('wishlist.products', 'product')
+      .leftJoinAndSelect('product.business', 'business')
+      .where('wishlist.userId = :userId', { userId })
+      .andWhere('wishlist.deletedAt IS NULL');
+
+    const total = await wishlistQuery.clone().getCount();
+
+    const wishlist = await wishlistQuery
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getMany();
+
+    const products = wishlist.flatMap((item) => item.products);
+
+    return {
+      data: products,
+      pageInfo: {
+        total,
+        page,
+        limit,
+        totalPages: Math.ceil(total / limit),
+      },
+    };
+  }
+
+  async removeFromWishlist(userId: string, productId: string): Promise<void> {
+    const wishlistItem = await this.wishlistRepository.findOne(
+      { user: { id: userId } },
+      { relations: ['products'] },
+    );
+
+    if (!wishlistItem) {
+      throw new NotFoundException('Wishlist not found');
+    }
+
+    const updatedProducts = wishlistItem.products.filter(
+      (product) => product.id !== productId,
+    );
+
+    await this.wishlistRepository.updateWishlistProducts(
+      wishlistItem.id,
+      updatedProducts,
+    );
   }
 }

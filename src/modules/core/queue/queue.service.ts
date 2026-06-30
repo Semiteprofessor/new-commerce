@@ -5,13 +5,13 @@ import { AppEvents } from '../../common/app.events';
 
 @Injectable()
 export class QueueService {
-  constructor(@InjectQueue('3xg Shop') private readonly _3xgShopQueue: Queue) {}
+  constructor(@InjectQueue('Rancho Shop') private readonly _ranchoShopQueue: Queue) {}
 
   async enqueueSlackNotificationForOrders(data: any) {
-    await this._3xgShopQueue.add(AppEvents.NEW_ORDER_CREATED, data);
+    await this._ranchoShopQueue.add(AppEvents.NEW_ORDER_CREATED, data);
   }
 
   async enqueueSlackNotificationForReturnRequests(data: any) {
-    await this._3xgShopQueue.add(AppEvents.RETURN_REQUEST_SUBMITTED, data);
+    await this._ranchoShopQueue.add(AppEvents.RETURN_REQUEST_SUBMITTED, data);
   }
 }

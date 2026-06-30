@@ -39,7 +39,6 @@ import * as winston from 'winston';
         }),
       ],
     }),
-    ,
     IamModule,
     UserModule,
     EventEmitterModule.forRoot(),

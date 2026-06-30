@@ -18,6 +18,7 @@ import { UserModule } from 'src/modules/core/users/user.module';
 import { OrderModule } from '../order/order.module';
 import { Review } from './entities/review.entity';
 import { Brand } from '../../brands/repositories/entities/brand.entity';
+import { WishlistModule } from '../wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -31,7 +32,7 @@ import { Brand } from '../../brands/repositories/entities/brand.entity';
       Review,
     ]),
     // CategoriesModule,
-    // WishlistModule,
+    WishlistModule,
     UserModule,
     // forwardRef(() => CartModule),
     // forwardRef(() => OrderModule),

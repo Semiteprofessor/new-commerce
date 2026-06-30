@@ -5,6 +5,7 @@ import { QueueService } from './queue.service';
 import { UsersSyncProcessor } from './processors/erpnext/erpnext-user.processor';
 import { ErpnextQueueService } from './erpnext-queue.service';
 import { ErpnextModule } from 'src/modules/erpnext/erpnext.module';
+import { ProductsSyncProcessor } from './processors/erpnext/erpnext-product.processor';
 
 @Global()
 @Module({
@@ -21,29 +22,29 @@ import { ErpnextModule } from 'src/modules/erpnext/erpnext.module';
       inject: [ConfigService],
     }),
     BullModule.registerQueue({
-      name: `3xg Shop`,
+      name: `Rancho Shop`,
     }),
     BullModule.registerQueue({
-      name: `3xg Users`,
+      name: `Rancho Users`,
     }),
     BullModule.registerQueue({
-      name: '3xg Products',
+      name: 'Rancho Products',
     }),
     BullModule.registerQueue({
-      name: '3xg ErpNext Orders',
+      name: 'Rancho ErpNext Orders',
     }),
     BullModule.registerQueue({
-      name: '3xg ErpNext Returns',
+      name: 'Rancho ErpNext Returns',
     }),
     BullModule.registerQueue({
-      name: '3xg Webhooks',
+      name: 'Rancho Webhooks',
     }),
     ErpnextModule,
   ],
   providers: [
     QueueService,
     UsersSyncProcessor,
-    // ProductsSyncProcessor,
+    ProductsSyncProcessor,
     // ShopProcessor,
     // OrdersSyncProcessor,
     // ReturnsSyncProcessor,

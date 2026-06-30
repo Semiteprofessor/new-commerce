@@ -10,6 +10,8 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppInterceptor } from './common/interceptors/app.interceptor';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { QueueModule } from './core/queue/queue.module';
+import { WinstonModule } from 'nest-winston';
+import * as winston from 'winston';
 
 @Module({
   imports: [
@@ -25,10 +27,23 @@ import { QueueModule } from './core/queue/queue.module';
       },
       inject: [ConfigService],
     }),
+
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.colorize(),
+            winston.format.simple(),
+          ),
+        }),
+      ],
+    }),
+    ,
     IamModule,
     UserModule,
     EventEmitterModule.forRoot(),
-    QueueModule
+    QueueModule,
   ],
   controllers: [],
   providers: [{ provide: APP_INTERCEPTOR, useClass: AppInterceptor }],

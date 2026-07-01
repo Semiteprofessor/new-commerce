@@ -1,11 +1,19 @@
-import { BaseEntity } from "src/db/entity/base.entity";
-import { User } from "src/modules/core/users/entities/user.entity";
-import { Column, Entity, Index, JoinTable, ManyToMany, ManyToOne, OneToMany } from "typeorm";
-import { BusinessProfile } from "../../merchants/entities/business-profile.entity";
-import { Review } from "./review.entity";
-import { Coupon } from "./coupon.entity";
-import { Category } from "src/modules/apps/categories/entities/category.entity";
-import { ProductStatuses } from "../enums/product.enum";
+import { BaseEntity } from 'src/db/entity/base.entity';
+import { User } from 'src/modules/core/users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  Index,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { BusinessProfile } from '../../merchants/entities/business-profile.entity';
+import { Review } from './review.entity';
+import { Coupon } from './coupon.entity';
+import { Category } from 'src/modules/apps/categories/entities/category.entity';
+import { ProductStatuses } from '../enums/product.enum';
 
 @Entity('products')
 export class Product extends BaseEntity {

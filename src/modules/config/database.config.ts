@@ -11,17 +11,11 @@ export default () => ({
   database: process.env.TYPEORM_DATABASE,
 
   synchronize: false,
-  entities: ['dist/modules/**/*.entity.{js}'],
-  migrations: ['dist/db/migrations/**/*.{js}'],
 
-  logging: ['error'],
-  logger: 'advanced-console',
+  entities: ['dist/modules/**/*.entity.js'],
+  migrations: ['dist/db/migrations/**/*.js'],
 
-  ...(isDevelopment
-    ? {}
-    : {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      }),
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });

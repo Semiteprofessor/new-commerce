@@ -7,7 +7,7 @@ import {
   DeleteDateColumn,
 } from 'typeorm';
 
-@Entity('brands')
+// @Entity('brands')
 // @Tree('materialized-path')
 export class Brand {
   @PrimaryGeneratedColumn()

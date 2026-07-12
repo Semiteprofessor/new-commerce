@@ -19,7 +19,6 @@ import { ActorUser } from '../../../../common/types/user.types';
 import { ErrorCodes } from '../../../../common/error-codes.enum';
 import { BrandRepository } from 'src/modules/apps/brands/repositories/brand.repository';
 import { BusinessProfileRepository } from 'src/modules/core/users/repositories/business.repository';
-import { ProductStatuses } from '../product.enum';
 import { UserRepository } from 'src/modules/core/users/repositories/user.repository';
 import { UserEvents } from 'src/modules/common/app.events';
 import { BuyNowDto } from '../../cart/dto/cart';
@@ -33,6 +32,7 @@ import { Warranty } from '../../warranty/entities/warranty.entity';
 import { ReviewRepository } from '../repositories/review.repository';
 import { CreateReviewDto } from '../dto/review.dto';
 import { ConfigService } from '@nestjs/config';
+import { ProductStatuses } from '../enums/product.enum';
 
 const { customAlphabet } = require('nanoid');
 
@@ -164,7 +164,7 @@ export class ProductService {
     } catch (e) {
       throw new BadRequestException({
         errorCode: '',
-        message: e.message,
+        message: e instanceof Error ? e.message : 'An error occured',
       });
     }
   }
@@ -180,7 +180,7 @@ export class ProductService {
     } catch (e) {
       throw new BadRequestException({
         errorCode: '',
-        message: e.message,
+        message: e instanceof Error ? e.message : 'An error occured',
       });
     }
   }
@@ -217,12 +217,10 @@ export class ProductService {
     const product = await this.productRepository.findOne(
       { slug },
       {
-        relations: [
-          'category',
-          'category.parent',
-          'category.parent.parent',
-          'reviews',
-        ],
+        relations: {
+          category: { parent: { parent: true } },
+          reviews: true,
+        },
       },
     );
 
@@ -241,12 +239,10 @@ export class ProductService {
     const product = await this.productRepository.findOne(
       { id },
       {
-        relations: [
-          'category',
-          'category.parent',
-          'category.parent.parent',
-          'reviews',
-        ],
+        relations: {
+          category: { parent: { parent: true } },
+          reviews: true,
+        },
       },
     );
 
@@ -300,7 +296,7 @@ export class ProductService {
 
     const wishlistProducts = await this.wishlistRepository.find(
       {},
-      { relations: ['products'] },
+      { relations: { products: true } },
     );
     const wishlistProductIds = wishlistProducts
       .map((wishlist) => wishlist.products.map((p) => p.id))

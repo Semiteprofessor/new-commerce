@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import { BaseEntity } from '../../../../../db/entity/base.entity';
-=======
-import { BaseEntity } from 'src/db/entity/base.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { Entity, Column, ManyToOne, Index } from 'typeorm';
 import { Cart } from './cart.entity';
 import { Product } from '../../products/entities/product.entity';

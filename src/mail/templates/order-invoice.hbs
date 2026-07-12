@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>Order Confirmation</title>
+  <style>
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      background-color: #f0f2f5;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #333;
+    }
+    a {
+      text-decoration: none;
+    }
+ 
+    .email-container {
+      max-width: 640px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    .email-header {
+      background: linear-gradient(135deg, #FF8C00, #FFA500);
+      padding: 30px;
+      text-align: center;
+      color: #ffffff;
+    }
+    .email-header img {
+      max-width: 120px;
+      margin-bottom: 15px;
+    }
+    .email-header h1 {
+      font-size: 24px;
+      margin: 0 0 10px;
+    }
+    .email-header p {
+      margin: 0;
+      font-size: 16px;
+    }
+    /* Body Content */
+    .email-body {
+      padding: 20px 30px;
+    }
+    .order-info, .section {
+      margin-bottom: 30px;
+    }
+    .order-info h2, .section h2 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 5px;
+    }
+    .order-info p, .section p {
+      margin: 0 0 5px;
+      font-size: 14px;
+      color: #555;
+    }
+    /* Product List */
+    .product {
+      display: flex;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .product:last-child {
+      border-bottom: none;
+    }
+    .product-image {
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+      margin-right: 15px;
+      border-radius: 6px;
+      object-fit: cover;
+    }
+    .product-details {
+      flex-grow: 1;
+    }
+    .product-details p {
+      margin: 2px 0;
+      font-size: 14px;
+    }
+    .product-details p span {
+      font-weight: bold;
+      color: #FF8C00;
+    }
+    /* Button */
+    .btn-track {
+      display: block;
+      width: fit-content;
+      margin: 30px auto 0;
+      background-color: #FFA500;
+      color: #ffffff;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    /* Cost Breakdown Table */
+    .cost-breakdown {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+    }
+    .cost-breakdown th,
+    .cost-breakdown td {
+      padding: 8px 10px;
+      font-size: 14px;
+      text-align: left;
+    }
+    .cost-breakdown tr:not(:last-child) td {
+      border-bottom: 1px solid #eee;
+    }
+    .cost-breakdown .total {
+      font-weight: bold;
+      font-size: 16px;
+      color: #FF8C00;
+    }
+    /* Footer */
+    .email-footer {
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      padding: 15px;
+    }
+    /* Additional Sections */
+    .details-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .detail-card {
+      flex: 1 1 280px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+      padding: 15px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .detail-card h3 {
+      margin-top: 0;
+      font-size: 16px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+      color: #FF8C00;
+    }
+    .detail-card p {
+      margin: 5px 0;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <!-- Header with Logo and Title -->
+    <div class="email-header">
+        <img src="https://res.cloudinary.com/believe/image/upload/v1739288962/3xg/logo.png" alt="Brand Logo">
+      <h1>Thank You, {{firstName}}!</h1>
+      <p>Your order #{{orderId}} is confirmed.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="email-body">
+      <!-- Order Summary -->
+      <div class="order-info">
+        <h2>Order Summary</h2>
+        <p>We’re processing your items and will update you once they ship.</p>
+      </div>
+
+      {{#each items}}
+      <div class="product">
+        <img class="product-image" src="{{this.image}}" alt="{{this.name}}">
+        <div class="product-details">
+          <p><span>{{this.name}}</span></p>
+          <p>Price: {{this.price}}</p>
+          <p>Quantity: {{this.quantity}}</p>
+        </div>
+      </div>
+      {{/each}}
+
+      <!-- Cost Breakdown -->
+      <div class="section">
+        <h2>Cost Breakdown</h2>
+        <table class="cost-breakdown">
+          <tr>
+            <td>Subtotal:</td>
+            <td>{{subtotal}}</td>
+          </tr>
+          <tr>
+            <td>Discount:</td>
+            <td>{{discount}}</td>
+          </tr>
+          <tr>
+            <td>Shipping Fee:</td>
+            <td>{{shippingFee}}</td>
+          </tr>
+
+          <tr>
+            <td class="total">Total:</td>
+            <td class="total">{{total}}</td>
+          </tr>
+        </table>
+      </div>
+
+
+      <div class="section">
+        <h2>Customer Details</h2>
+        <div class="details-grid">
+          <div class="detail-card">
+            <h3>Customer</h3>
+            <p>{{firstName}} {{lastName}}</p>
+            <p>{{email}}</p>
+          </div>
+          <div class="detail-card">
+            <h3>Shipping Address</h3>
+            <p>{{shippingAddress.address}}</p>
+            <p>{{shippingAddress.lga}}</p>
+
+          </div>
+          <div class="detail-card">
+            <h3>Payment Method</h3>
+            <p>{{paymentMethod}}</p>
+          </div>
+        </div>
+      </div>
+
+
+      <a href="{{orderUrl}}" class="btn-track">Track Your Order</a>
+    </div>
+
+
+    <div class="email-footer">
+      <p>If you have any questions, please contact our support team.</p>
+    </div>
+  </div>
+</body>
+</html>

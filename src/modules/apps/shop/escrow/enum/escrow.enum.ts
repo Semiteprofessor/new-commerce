@@ -1,0 +1,7 @@
+export enum EscrowStatus {
+  HELD = 'HELD',
+  RELEASED = 'RELEASED',
+  CANCELLED = 'CANCELLED',
+  REFUNDED = 'REFUNDED',
+  DISPUTED = 'DISPUTED',
+}

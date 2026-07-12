@@ -51,11 +51,31 @@ async function bootstrap() {
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001',
+<<<<<<< HEAD
+    'http://localhost:8002',
+=======
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
     'https://staging-merchant.3xg.africa',
     'https://staging-shop.3xg.africa',
   ];
 
   app.enableCors({
+<<<<<<< HEAD
+  origin: (origin, callback) => {
+    console.log("Origin:", origin);
+
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    console.log("Blocked:", origin);
+    callback(new Error("Not allowed by CORS"));
+  },
+=======
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -63,6 +83,7 @@ async function bootstrap() {
         callback(new Error('Not allowed by CORS'));
       }
     },
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
     // origin: ['*'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
@@ -70,7 +91,11 @@ async function bootstrap() {
   });
 
   await app.listen(PORT, () => {
+<<<<<<< HEAD
+    console.log(`Api is running on port http://localhost:${PORT}`);
+=======
     console.log(`Api is running on port ${PORT}`);
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
   });
 }
 bootstrap();

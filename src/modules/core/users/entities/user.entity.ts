@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+import { BaseEntity } from '../../../../db/entity/base.entity';
+import { Column, Entity, In, Index, OneToMany } from 'typeorm';
+import { Exclude } from 'class-transformer';
+import { BusinessProfile } from '../../../../modules/apps/shop/merchants/entities/business-profile.entity';
+import { UserStatus } from '../../../../modules/common/enums/role.enum';
+import { Order } from '../../../../modules/apps/shop/order/entities/order.entity';
+import { Cart } from '../../../../modules/apps/shop/cart/entities/cart.entity';
+import { ShippingAddress } from '../../../../modules/apps/shop/order/entities/shipping-address.entity';
+import { Wishlist } from '../../../../modules/apps/shop/wishlist/entities/wishlist.entity';
+import { ReturnRequest } from '../../../../modules/apps/shop/order/entities/return-request.entity';
+import { Review } from '../../../../modules/apps/shop/products/entities/review.entity';
+import { Warranty } from '../../../../modules/apps/shop/warranty/entities/warranty.entity';
+=======
 import { BaseEntity } from 'src/db/entity/base.entity';
 import { Column, Entity, In, Index, OneToMany } from 'typeorm';
 import { Exclude } from 'class-transformer';
@@ -10,6 +24,7 @@ import { Wishlist } from 'src/modules/apps/shop/wishlist/entities/wishlist.entit
 import { ReturnRequest } from 'src/modules/apps/shop/order/entities/return-request.entity';
 import { Review } from 'src/modules/apps/shop/products/entities/review.entity';
 import { Warranty } from 'src/modules/apps/shop/warranty/entities/warranty.entity';
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 
 @Entity('users')
 @Index(['email', 'role'], { unique: true })

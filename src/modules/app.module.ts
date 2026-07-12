@@ -12,6 +12,20 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { QueueModule } from './core/queue/queue.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
+<<<<<<< HEAD
+import { NotificationModule } from './notifications/modules/notification.module';
+import { CategoriesModule } from './apps/categories/category.module';
+import { ShopModule } from './apps/shop/shop.module';
+import { WalletModule } from './apps/wallet/wallet.module';
+import { LoggerModule } from './core/logger/logger.module';
+import { CommonModule } from './common/common.module';
+import { AssetsModule } from './assets/assets.module';
+import { UtilsModule } from './utils/utils.module';
+import { UtilityModule } from './apps/lib/utility/utility.module';
+import { WebhookModule } from './core/webhooks/webhook.module';
+import { RedisModule } from './redis/redis.module';
+=======
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 
 @Module({
   imports: [
@@ -39,10 +53,29 @@ import * as winston from 'winston';
         }),
       ],
     }),
+<<<<<<< HEAD
+
+    IamModule,
+    UserModule,
+    EventEmitterModule.forRoot(),
+    CommonModule,
+    AssetsModule,
+    NotificationModule,
+    QueueModule,
+    RedisModule,
+    UtilsModule,
+    CategoriesModule,
+    UtilityModule,
+    ShopModule,
+    WebhookModule,
+    WalletModule,
+    LoggerModule,
+=======
     IamModule,
     UserModule,
     EventEmitterModule.forRoot(),
     QueueModule,
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
   ],
   controllers: [],
   providers: [{ provide: APP_INTERCEPTOR, useClass: AppInterceptor }],

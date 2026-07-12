@@ -1,17 +1,9 @@
-<<<<<<< HEAD
 import { BaseEntity } from '../../../../../db/entity/base.entity';
-=======
-import { BaseEntity } from 'src/db/entity/base.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { ShippingAddress } from './shipping-address.entity';
 import { OrderSource, OrderStatus } from '../enums/order.enum';
 import { OrderItem } from './order-item.entity';
-<<<<<<< HEAD
 import { User } from '../../../../../modules/core/users/entities/user.entity';
-=======
-import { User } from 'src/modules/core/users/entities/user.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { Coupon } from '../../products/entities/coupon.entity';
 
 // User selects items from cart ✅

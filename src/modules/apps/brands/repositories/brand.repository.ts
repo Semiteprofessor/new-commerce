@@ -2,6 +2,7 @@ import {
   DeepPartial,
   FindOneOptions,
   FindOptionsWhere,
+  QueryFailedError,
   Repository,
 } from 'typeorm';
 import { ConflictException, Injectable } from '@nestjs/common';
@@ -19,10 +20,13 @@ export class BrandRepository {
       const user = this._brandRepository.create(data);
       return await this._brandRepository.save(user);
     } catch (e) {
-      if (e.code === '23505') {
+      if (
+        e instanceof QueryFailedError &&
+        (e as any).driverError?.code === '23505'
+      ) {
         throw new ConflictException({
           statusCode: 409,
-          message: `A brand with name, ${data.name} already exists `,
+          message: `A brand with name "${data.name}" already exists.`,
         });
       }
       throw e;

@@ -1,13 +1,13 @@
 import { NestFactory } from '@nestjs/core';
-import helmet from 'helmet';
-import { ConfigService } from '@nestjs/config';
-import { RequestMethod, ValidationPipe } from '@nestjs/common';
-import { AppModule } from './modules/app.module';
 import {
   DocumentBuilder,
   SwaggerDocumentOptions,
   SwaggerModule,
 } from '@nestjs/swagger';
+import { ConfigService } from '@nestjs/config';
+import { RequestMethod, ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
+import { AppModule } from './modules/app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -32,14 +32,14 @@ async function bootstrap() {
   };
 
   const config = new DocumentBuilder()
-    .setTitle('Rancho Api Documentation')
+    .setTitle('3xg Api Documentation')
     .setDescription('Apis for useflota app')
-    .addServer('https://rancho-commerce-api.vercel.app', 'Staging Server')
+    .addServer('https://3xg.africa', 'Staging Server')
     .addServer('http://localhost:3000', 'Local Server')
     .addBearerAuth({
       type: 'http',
       scheme: 'bearer',
-      bearerFormat: 'rancho-auth',
+      bearerFormat: '3xg-auth',
     })
     .build();
 
@@ -51,31 +51,11 @@ async function bootstrap() {
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001',
-<<<<<<< HEAD
-    'http://localhost:8002',
-=======
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
     'https://staging-merchant.3xg.africa',
     'https://staging-shop.3xg.africa',
   ];
 
   app.enableCors({
-<<<<<<< HEAD
-  origin: (origin, callback) => {
-    console.log("Origin:", origin);
-
-    if (!origin) {
-      return callback(null, true);
-    }
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    console.log("Blocked:", origin);
-    callback(new Error("Not allowed by CORS"));
-  },
-=======
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -83,7 +63,6 @@ async function bootstrap() {
         callback(new Error('Not allowed by CORS'));
       }
     },
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
     // origin: ['*'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
@@ -91,11 +70,8 @@ async function bootstrap() {
   });
 
   await app.listen(PORT, () => {
-<<<<<<< HEAD
-    console.log(`Api is running on port http://localhost:${PORT}`);
-=======
     console.log(`Api is running on port ${PORT}`);
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
   });
 }
+
 bootstrap();

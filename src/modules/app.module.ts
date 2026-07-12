@@ -13,7 +13,6 @@ import { AssetsModule } from './assets/assets.module';
 import { NotificationModule } from './notifications/modules/notification.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { UtilsModule } from './utils/utils.module';
-import { CategoriesModule } from './apps/categories/categories.module';
 import { ShopModule } from './apps/shop/shop.module';
 import { UtilityModule } from './apps/lib/utility/utility.module';
 import { BullBoardModule } from '@bull-board/nestjs';
@@ -23,6 +22,7 @@ import { WebhookModule } from './core/webhooks/webhook.module';
 import { WalletModule } from './apps/wallet/wallet.module';
 import { LoggerModule } from './core/logger/logger.module';
 import { RedisModule } from './redis/redis.module';
+import { CategoriesModule } from './apps/categories/category.module';
 
 @Module({
   imports: [

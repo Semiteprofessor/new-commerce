@@ -1,5 +1,9 @@
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
+<<<<<<< HEAD
 import { User } from '../../../../../modules/core/users/entities/user.entity';
+=======
+import { User } from 'src/modules/core/users/entities/user.entity';
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { BaseEntity } from '../../../../../db/entity/base.entity';
 import { Coupon } from '../../products/entities/coupon.entity';
 import { CartItem } from './cart-item.entity';

@@ -3,16 +3,26 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+<<<<<<< HEAD
 import { EntityRepository } from '../../../../../db/repository/entity.repository';
 import { Product, Product as ProductEntity } from '../entities/product.entity';
 import { Category } from '../../../../../modules/apps/categories/entities/category.entity';
+=======
+import { EntityRepository } from 'src/db/repository/entity.repository';
+import { Product, Product as ProductEntity } from '../entities/product.entity';
+import { Category } from 'src/modules/apps/categories/entities/category.entity';
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { EntityManager, Repository, TreeRepository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
   PageInfo,
   PaginatedRecordsDto,
   QueryParamsDto,
+<<<<<<< HEAD
 } from '../../../../../modules/common/dtos/pagination.dto';
+=======
+} from 'src/modules/common/dtos/pagination.dto';
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { WishlistRepository } from '../../wishlist/repositories/wishlist.repository';
 
 @Injectable()

@@ -285,16 +285,16 @@ export class AuthService {
 
       const user = await this.userRepository.findOne({ id: sub });
 
-      // const isValid = await this.refreshTokenIdsStorage.validate(
-      //   user.id,
-      //   refreshTokenId,
-      // );
+      const isValid = await this.refreshTokenIdsStorage.validate(
+        user.id,
+        refreshTokenId,
+      );
 
-      // if (isValid) {
-      //   await this.refreshTokenIdsStorage.invalidate(user.id);
-      // } else {
-      //   throw new Error('Refresh token is invalid');
-      // }
+      if (isValid) {
+        await this.refreshTokenIdsStorage.invalidate(user.id);
+      } else {
+        throw new Error('Refresh token is invalid');
+      }
 
       return this.generateTokens(user);
     } catch (err) {

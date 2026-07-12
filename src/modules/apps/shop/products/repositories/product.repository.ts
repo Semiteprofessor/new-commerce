@@ -45,7 +45,7 @@ export class ProductRepository extends EntityRepository<ProductEntity> {
 
     const wishlistProducts = await this.wishlistRepository.find(
       {},
-      { relations: ['products'] },
+      { relations: { products: true } },
     );
     const wishlistProductIds = wishlistProducts
       .map((wishlist) => wishlist.products.map((p) => p.id))

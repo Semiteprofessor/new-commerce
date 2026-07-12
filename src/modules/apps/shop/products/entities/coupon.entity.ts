@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+import { BaseEntity } from "../../../../../db/entity/base.entity";
+=======
 import { BaseEntity } from "src/db/entity/base.entity";
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { Column, Entity, Index, ManyToMany, OneToMany } from "typeorm";
 import { Product } from "./product.entity";
 import { Cart } from "../../cart/entities/cart.entity";

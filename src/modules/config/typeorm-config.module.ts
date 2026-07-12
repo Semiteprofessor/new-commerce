@@ -17,7 +17,15 @@ import { Coupon } from '../apps/shop/products/entities/coupon.entity';
 import { Warranty } from '../apps/shop/warranty/entities/warranty.entity';
 import { ReturnRequest } from '../apps/shop/order/entities/return-request.entity';
 import { Review } from '../apps/shop/products/entities/review.entity';
+<<<<<<< HEAD
+import { Brand } from '../apps/brands/entities/brand.entity';
+import { WebBanner } from '../apps/shop/banners/entities/web-banner.entity';
+import { MobileBanner, MobileBannerImage } from '../apps/shop/banners/entities/mobile-banner.entity';
+import { WebBannerImageRepository } from '../apps/shop/banners/repositories/web-banner-image.repository';
+import { SystemWallet } from '../apps/wallet/entities/system-wallets.entity';
+=======
 
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 
 @Module({
   imports: [
@@ -33,16 +41,32 @@ import { Review } from '../apps/shop/products/entities/review.entity';
             Product,
             User,
             BusinessProfile,
+<<<<<<< HEAD
+            Brand,
+=======
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
             Cart,
             CartItem,
             Order,
             OrderItem,
             //Review,
+<<<<<<< HEAD
+            WebBanner,
+            Wishlist,
+            MobileBanner,
+            WebBannerImageRepository,
+            MobileBannerImage,
+=======
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
             ShippingAddress,
             Coupon,
             Warranty,
             ReturnRequest,
             Review,
+<<<<<<< HEAD
+            SystemWallet,
+=======
+>>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
             ReturnRequest,
           ],
         };

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+  <meta charset="utf-8">
+  <meta name="x-apple-disable-message-reformatting">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+  <meta name="color-scheme" content="light dark">
+  <meta name="supported-color-schemes" content="light dark">
+  <title>New Order Notification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8fafc;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 600px;
+      margin: 20px auto;
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 5px;
+      box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+    }
+    .header {
+      text-align: center;
+    }
+    .product {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 10px 0;
+    }
+    .product img {
+      width: 80px;
+      height: auto;
+      margin-right: 15px;
+      border-radius: 5px;
+    }
+    .product-info {
+      flex: 1;
+    }
+    .button {
+      display: block;
+      text-align: center;
+      background-color: #0F172A;
+      color: #ffffff;
+      padding: 12px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h2>You have a new order on 3XG</h2>
+      <p>Dear {{firstName}},</p>
+      <p>You have received a new order for the following products:</p>
+    </div>
+    
+    {{#each products}}
+    <div class="product">
+      <img src="{{this.image}}" alt="{{this.name}}">
+      <div class="product-info">
+        <p><strong>{{this.name}}</strong></p>
+        <p>Order ID: {{this.orderId}}</p>
+        <p>Price: {{this.price}}</p>
+        <p>Warranty: {{this.warranty}}</p>
+        <p>SKU: {{this.skuNumber}}</p>
+        <p>Purchased on: {{this.date}}</p>
+      </div>
+    </div>
+    {{/each}}
+    
+    <a href="{{orderUrl}}" class="button">Process Order</a>
+  </div>
+</body>
+</html>

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { forwardRef, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../../../../modules/core/users/entities/user.entity';
@@ -25,17 +24,6 @@ import { ProductModule } from '../products/product.module';
 import { MerchantOrdersController } from '../merchants/controllers/merchant-orders.controller';
 import { ReturnRequestService } from './services/return-request.service';
 import { ShippingAddressController } from './controllers/shipping-address.controller';
-=======
-import { TypeOrmModule } from "@nestjs/typeorm";
-import { Order } from "./entities/order.entity";
-import { OrderItem } from "./entities/order-item.entity";
-import { User } from "src/modules/core/users/entities/user.entity";
-import { ShippingAddress } from "./entities/shipping-address.entity";
-import { BusinessProfile } from "../merchants/entities/business-profile.entity";
-import { ReturnRequest } from "./entities/return-request.entity";
-import { UserRepository } from "src/modules/core/users/repositories/user.repository";
-import { Module } from "@nestjs/common";
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 
 @Module({
   imports: [
@@ -47,7 +35,6 @@ import { Module } from "@nestjs/common";
       BusinessProfile,
       ReturnRequest,
     ]),
-<<<<<<< HEAD
     EscrowModule,
     RedisModule,
     forwardRef(() => CartModule),
@@ -80,38 +67,3 @@ import { Module } from "@nestjs/common";
   ],
 })
 export class OrderModule {}
-=======
-    // CartModule,
-    // RedisModule,
-    // forwardRef(() => CartModule),
-    // forwardRef(() => ProductModule),
-    // EscrowModule,
-    // forwardRef(() => WalletModule),
-  ],
-  providers: [
-    // OrdersService,
-    // OrderRepository,
-    // OrderItemRepository,
-    // ShippingAddressRepository,
-    // BusinessProfileRepository,
-    // ShippingAddressService,
-    UserRepository,
-    // ItranxitService,
-    // ReturnRequestRepository,
-    // ReturnRequestService,
-  ],
-//   controllers: [OrdersController, ShippingAddressController],
-  exports: [
-    // OrdersService,
-    // OrderRepository,
-    // OrderItemRepository,
-    // ShippingAddressRepository,
-    // ShippingAddressService,
-    // BusinessProfileRepository,
-    // ItranxitService,
-    // ReturnRequestRepository,
-    // ReturnRequestService,
-  ],
-})
-export class OrderModule {}
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2

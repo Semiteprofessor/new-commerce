@@ -12,7 +12,6 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { QueueModule } from './core/queue/queue.module';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
-<<<<<<< HEAD
 import { NotificationModule } from './notifications/modules/notification.module';
 import { CategoriesModule } from './apps/categories/category.module';
 import { ShopModule } from './apps/shop/shop.module';
@@ -24,8 +23,6 @@ import { UtilsModule } from './utils/utils.module';
 import { UtilityModule } from './apps/lib/utility/utility.module';
 import { WebhookModule } from './core/webhooks/webhook.module';
 import { RedisModule } from './redis/redis.module';
-=======
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 
 @Module({
   imports: [
@@ -53,7 +50,6 @@ import { RedisModule } from './redis/redis.module';
         }),
       ],
     }),
-<<<<<<< HEAD
 
     IamModule,
     UserModule,
@@ -70,12 +66,6 @@ import { RedisModule } from './redis/redis.module';
     WebhookModule,
     WalletModule,
     LoggerModule,
-=======
-    IamModule,
-    UserModule,
-    EventEmitterModule.forRoot(),
-    QueueModule,
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
   ],
   controllers: [],
   providers: [{ provide: APP_INTERCEPTOR, useClass: AppInterceptor }],

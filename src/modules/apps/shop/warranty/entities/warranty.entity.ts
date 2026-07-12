@@ -1,12 +1,6 @@
-<<<<<<< HEAD
 import { BaseEntity } from '../../../../../db/entity/base.entity';
 import { WarrantyStatus } from '../../../../../modules/common/enums/warranty.enum';
 import { User } from '../../../../../modules/core/users/entities/user.entity';
-=======
-import { BaseEntity } from 'src/db/entity/base.entity';
-import { WarrantyStatus } from 'src/modules/common/enums/warranty.enu';
-import { User } from 'src/modules/core/users/entities/user.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('warranty')

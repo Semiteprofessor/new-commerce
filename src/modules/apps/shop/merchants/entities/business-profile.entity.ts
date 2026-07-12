@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import { BaseEntity } from '../../../../../db/entity/base.entity';
 import { User } from '../../../../../modules/core/users/entities/user.entity';
-=======
-import { BaseEntity } from 'src/db/entity/base.entity';
-import { User } from 'src/modules/core/users/entities/user.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Product } from '../../products/entities/product.entity';
 

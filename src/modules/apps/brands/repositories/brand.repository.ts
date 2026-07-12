@@ -5,11 +5,7 @@ import {
   QueryFailedError,
   Repository,
 } from 'typeorm';
-<<<<<<< HEAD
-import { Brand } from '../entities/brand.entity';
-=======
 import { Brand } from './entities/brand.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
 import { ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 

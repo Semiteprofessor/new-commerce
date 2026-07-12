@@ -11,10 +11,10 @@ import { ReturnRequest } from 'src/modules/apps/shop/order/entities/return-reque
 @Injectable()
 export class ErpnextQueueService {
   constructor(
-    @InjectQueue('3xg Users') private readonly erpUsersQueue: Queue,
-    @InjectQueue('3xg Products') private readonly erpProductsQueue: Queue,
-    @InjectQueue('3xg ErpNext Orders') private readonly erpOrdersQueue: Queue,
-    @InjectQueue('3xg ErpNext Returns') private readonly erpReturnsQueue: Queue,
+    @InjectQueue('Rancho Users') private readonly erpUsersQueue: Queue,
+    @InjectQueue('Rancho Products') private readonly erpProductsQueue: Queue,
+    @InjectQueue('Rancho Orders') private readonly erpOrdersQueue: Queue,
+    @InjectQueue('Rancho Returns') private readonly erpReturnsQueue: Queue,
 
   ) {}
 

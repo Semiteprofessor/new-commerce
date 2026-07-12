@@ -3,7 +3,7 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Job } from 'bullmq';
 import { ErpNextService } from '../../../../erpnext/services/erpnext.service';
 
-@Processor('3xg ErpNext Returns')
+@Processor('Rancho Returns')
 export class ReturnsSyncProcessor extends WorkerHost {
   constructor(
     private readonly eventEmitter: EventEmitter2,

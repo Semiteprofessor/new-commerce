@@ -19,6 +19,7 @@ import { BusinessProfileRepository } from '../users/repositories/business.reposi
 import { RoleGuard } from './authorization/guards/guards/role.guard';
 import { AuthService } from './authentication/services/auth.service';
 import { AuthController } from './authentication/controllers/auth.controller';
+import { MerchantsModule } from 'src/modules/apps/shop/merchants/merchants.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthController } from './authentication/controllers/auth.controller';
     TypeOrmModule.forFeature([User, BusinessProfile]),
     UserModule,
     OtpModule,
+    MerchantsModule,
   ],
   providers: [
     GoogleStrategy,

@@ -10,8 +10,8 @@ import { ErpnextQueueService } from './erpnext-queue.service';
 import { ErpnextModule } from '../../erpnext/erpnext.module';
 import { OrdersSyncProcessor } from './processors/erpnext/erpnext-order.processor';
 import { SlackService } from '../../notifications/services/slack.service';
-import { ShopProcessor } from './processors/3xg/shop.processor';
 import { ReturnsSyncProcessor } from './processors/erpnext/erpnext-return.processor';
+import { ShopProcessor } from './processors/3xg/shop.processor';
 
 @Global()
 @Module({
@@ -28,46 +28,46 @@ import { ReturnsSyncProcessor } from './processors/erpnext/erpnext-return.proces
       inject: [ConfigService],
     }),
     BullModule.registerQueue({
-      name: `3xg Shop`,
+      name: `Rancho Shop`,
     }),
     BullModule.registerQueue({
-      name: `3xg Users`,
+      name: `Rancho Users`,
     }),
     BullModule.registerQueue({
-      name: '3xg Products',
+      name: 'Rancho Products',
     }),
     BullModule.registerQueue({
-      name: '3xg ErpNext Orders',
+      name: 'Rancho Orders',
     }),
     BullModule.registerQueue({
-      name: '3xg ErpNext Returns',
+      name: 'Rancho Returns',
     }),
     BullModule.registerQueue({
-      name: '3xg Webhooks',
+      name: 'Rancho Webhooks',
     }),
     BullBoardModule.forFeature(
       {
-        name: '3xg Shop',
+        name: 'Rancho Shop',
         adapter: BullMQAdapter,
       },
       {
-        name: '3xg Users',
+        name: 'Rancho Users',
         adapter: BullMQAdapter,
       },
       {
-        name: '3xg Products',
+        name: 'Rancho Products',
         adapter: BullMQAdapter,
       },
       {
-        name: '3xg ErpNext Orders',
+        name: 'Rancho Orders',
         adapter: BullMQAdapter,
       },
       {
-        name: '3xg ErpNext Returns',
+        name: 'Rancho Returns',
         adapter: BullMQAdapter,
       },
       {
-        name: '3xg Webhooks',
+        name: 'Rancho Webhooks',
         adapter: BullMQAdapter,
       },
     ),

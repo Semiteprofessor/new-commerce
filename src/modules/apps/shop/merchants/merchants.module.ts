@@ -25,6 +25,6 @@ import { CategoriesModule } from '../../categories/category.module';
     MerchantOrdersController,
   ],
   providers: [BusinessProfileRepository, BusinessProfileService],
-  exports: [],
+  exports: [BusinessProfileRepository],
 })
 export class MerchantsModule {}

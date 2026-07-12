@@ -2,7 +2,7 @@ import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Job } from 'bullmq';
 import { SlackService } from '../../../../notifications/services/slack.service';
 
-@Processor('3xg Shop')
+@Processor('Rancho Shop')
 export class ShopProcessor extends WorkerHost {
   constructor(private readonly slackService: SlackService) {
     super();

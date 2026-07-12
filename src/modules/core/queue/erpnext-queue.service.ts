@@ -1,25 +1,20 @@
+import { Injectable } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bullmq';
 import { Queue } from 'bullmq';
 import { User } from '../users/entities/user.entity';
-import { Product } from 'src/modules/apps/shop/products/entities/product.entity';
+import { Product } from '../../apps/shop/products/entities/product.entity';
+// import { ErpNextService } from '../../erpnext/services/erpnext.service';
 import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
 import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
 import { ReturnRequest } from 'src/modules/apps/shop/order/entities/return-request.entity';
 
+@Injectable()
 export class ErpnextQueueService {
   constructor(
-    @InjectQueue('Rancho Users') private readonly erpUsersQueue: Queue,
-    @InjectQueue('Rancho Products') private readonly erpProductsQueue: Queue,
-<<<<<<< HEAD
-    @InjectQueue('Rancho Orders')
-    private readonly erpOrdersQueue: Queue,
-    @InjectQueue('Rancho Returns')
-=======
-    @InjectQueue('Rancho ErpNext Orders')
-    private readonly erpOrdersQueue: Queue,
-    @InjectQueue('Rancho ErpNext Returns')
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
-    private readonly erpReturnsQueue: Queue,
+    @InjectQueue('3xg Users') private readonly erpUsersQueue: Queue,
+    @InjectQueue('3xg Products') private readonly erpProductsQueue: Queue,
+    @InjectQueue('3xg ErpNext Orders') private readonly erpOrdersQueue: Queue,
+    @InjectQueue('3xg ErpNext Returns') private readonly erpReturnsQueue: Queue,
   ) {}
 
   async enqueueCreateErpNextUser(user: User) {

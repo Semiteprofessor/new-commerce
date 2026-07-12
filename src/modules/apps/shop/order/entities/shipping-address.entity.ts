@@ -1,11 +1,8 @@
-<<<<<<< HEAD
+import { Entity, Column, ManyToOne, Index } from 'typeorm';
+import { Order } from './order.entity';
+import { Product } from '../../products/entities/product.entity';
 import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
-=======
-import { BaseEntity } from 'src/db/entity/base.entity';
-import { User } from 'src/modules/core/users/entities/user.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { User } from '../../../../core/users/entities/user.entity';
 
 @Entity('shipping_address')
 export class ShippingAddress extends BaseEntity {

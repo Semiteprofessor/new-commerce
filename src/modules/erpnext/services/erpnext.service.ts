@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ProductService } from 'src/modules/apps/shop/products/services/product.service';
+import { User } from '../../core/users/entities/user.entity';
+import { Product } from '../../apps/shop/products/entities/product.entity';
 import axios from 'axios';
-import { User } from 'src/modules/core/users/entities/user.entity';
 import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
-import { Product } from 'src/modules/apps/shop/products/entities/product.entity';
+import { ProductService } from 'src/modules/apps/shop/products/services/product.service';
+import { ShippingAddress } from 'src/modules/apps/shop/order/entities/shipping-address.entity';
+import { OrderItem } from 'src/modules/apps/shop/order/entities/order-item.entity';
 import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
 import { ReturnRequest } from 'src/modules/apps/shop/order/entities/return-request.entity';
+
 @Injectable()
 export class ErpNextService {
   private readonly apiClient;
@@ -22,7 +25,7 @@ export class ErpNextService {
         Token: `${this.configService.get('ERPNEXT_API_SECRET')}`,
       },
     });
-    // this.setupInterceptors();}
+    // this.setupInterceptors();
   }
 
   async createUser(data: User) {
@@ -46,7 +49,6 @@ export class ErpNextService {
       throw e;
     }
   }
-
   async createMerchant(data: User, business: BusinessProfile) {
     try {
       const res = await this.apiClient.post(
@@ -72,11 +74,6 @@ export class ErpNextService {
           country: 'Nigeria',
         },
       );
-<<<<<<< HEAD
-
-      console.log(res.data.message.body);
-=======
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
     } catch (e) {
       console.log(e);
       throw e;

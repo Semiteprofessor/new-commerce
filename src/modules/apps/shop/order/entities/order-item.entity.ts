@@ -1,19 +1,15 @@
-<<<<<<< HEAD
+import { Entity, Column, ManyToOne, Index, OneToOne } from 'typeorm';
+import { Order } from './order.entity';
+import { Product } from '../../products/entities/product.entity';
 import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { Column, Entity, Index, ManyToOne, OneToOne } from 'typeorm';
-import { Order } from './order.entity';
-import { Product } from '../../products/entities/product.entity';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
-=======
-import { BaseEntity } from 'src/db/entity/base.entity';
-import { Column, Entity, Index, ManyToOne, OneToOne } from 'typeorm';
-import { Order } from './order.entity';
-import { Product } from '../../products/entities/product.entity';
-import { User } from 'src/modules/core/users/entities/user.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
+import { User } from '../../../../core/users/entities/user.entity';
 import { OrderStatus } from '../enums/order.enum';
 import { ReturnRequest } from './return-request.entity';
 
+/**
+ * add distance in km
+ * add computed shipping fee
+ */
 @Entity('order_item')
 export class OrderItem extends BaseEntity {
   @ManyToOne(() => Order, (order) => order.items, { onDelete: 'CASCADE' })

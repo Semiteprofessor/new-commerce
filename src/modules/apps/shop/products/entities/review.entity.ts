@@ -1,14 +1,10 @@
-<<<<<<< HEAD
-import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
 import { Product } from './product.entity';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
-=======
-import { BaseEntity } from 'src/db/entity/base.entity';
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
-import { Product } from './product.entity';
+import { Cart } from '../../cart/entities/cart.entity';
+import { Order } from '../../order/entities/order.entity';
+import { Entity } from 'typeorm/decorator/entity/Entity';
+import { Column, Index, ManyToOne } from 'typeorm';
 import { User } from 'src/modules/core/users/entities/user.entity';
->>>>>>> cbb35b8b55f480354592d7ff588611c60bd980a2
+import { BaseEntity } from 'src/db/entity/base.entity';
 
 @Entity('reviews')
 export class Review extends BaseEntity {

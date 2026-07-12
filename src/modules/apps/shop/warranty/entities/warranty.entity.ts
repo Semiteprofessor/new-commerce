@@ -1,6 +1,6 @@
-import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { WarrantyStatus } from '../../../../../modules/common/enums/warranty.enum';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
+import { BaseEntity } from 'src/db/entity/base.entity';
+import { WarrantyStatus } from 'src/modules/common/enums/warranty.enu';
+import { User } from 'src/modules/core/users/entities/user.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity('warranty')

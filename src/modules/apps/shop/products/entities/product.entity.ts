@@ -1,18 +1,19 @@
-import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
+import { BaseEntity } from 'src/db/entity/base.entity';
 import {
-  Column,
   Entity,
-  Index,
-  JoinTable,
-  ManyToMany,
+  Column,
   ManyToOne,
+  Index,
   OneToMany,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Category } from '../../../categories/entities/category.entity';
+import { User } from '../../../../core/users/entities/user.entity';
+import { Wishlist } from '../../wishlist/entities/wishlist.entity';
 import { BusinessProfile } from '../../merchants/entities/business-profile.entity';
-import { Review } from './review.entity';
 import { Coupon } from './coupon.entity';
-import { Category } from '../../../../../modules/apps/categories/entities/category.entity';
+import { Review } from './review.entity';
 import { ProductStatuses } from '../enums/product.enum';
 
 @Entity('products')

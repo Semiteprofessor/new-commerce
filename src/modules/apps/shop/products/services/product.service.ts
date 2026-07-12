@@ -164,8 +164,7 @@ export class ProductService {
     } catch (e) {
       throw new BadRequestException({
         errorCode: '',
-        message:
-          e instanceof Error ? e.message : 'An unexpected error occurred',
+        message: e instanceof Error ? e.message : 'An error occured',
       });
     }
   }
@@ -180,9 +179,8 @@ export class ProductService {
       return await this.productRepository.findAllByQueryBuilder(query);
     } catch (e) {
       throw new BadRequestException({
-        errorCode: 'BAD_REQUEST',
-        message:
-          e instanceof Error ? e.message : 'An unexpected error occurred',
+        errorCode: '',
+        message: e instanceof Error ? e.message : 'An error occured',
       });
     }
   }
@@ -221,6 +219,7 @@ export class ProductService {
       {
         relations: {
           category: { parent: { parent: true } },
+          reviews: true,
         },
       },
     );
@@ -242,6 +241,7 @@ export class ProductService {
       {
         relations: {
           category: { parent: { parent: true } },
+          reviews: true,
         },
       },
     );

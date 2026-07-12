@@ -1,9 +1,9 @@
-import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { ShippingAddress } from './shipping-address.entity';
-import { OrderSource, OrderStatus } from '../enums/order.enum';
+import { User } from 'src/modules/core/users/entities/user.entity';
+import { Entity, Column, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { OrderItem } from './order-item.entity';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
+import { BaseEntity } from '../../../../../db/entity/base.entity';
+import { OrderSource, OrderStatus } from '../enums/order.enum';
+import { ShippingAddress } from './shipping-address.entity';
 import { Coupon } from '../../products/entities/coupon.entity';
 
 // User selects items from cart ✅

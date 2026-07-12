@@ -1,6 +1,8 @@
+import { Entity, Column, ManyToOne, Index } from 'typeorm';
+import { Order } from './order.entity';
+import { Product } from '../../products/entities/product.entity';
 import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
-import { Column, Entity, Index, ManyToOne } from 'typeorm';
+import { User } from '../../../../core/users/entities/user.entity';
 
 @Entity('shipping_address')
 export class ShippingAddress extends BaseEntity {

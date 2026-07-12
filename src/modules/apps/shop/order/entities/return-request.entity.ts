@@ -1,8 +1,15 @@
-import { BaseEntity } from "../../../../../db/entity/base.entity";
-import { Column, Entity, Index, JoinColumn, ManyToOne, OneToOne } from "typeorm";
-import { OrderItem } from "./order-item.entity";
-import { User } from "../../../../../modules/core/users/entities/user.entity";
-import { ReturnRequestStatus } from "../enums/order.enum";
+import {
+  Entity,
+  Column,
+  ManyToOne,
+  Index,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
+import { BaseEntity } from '../../../../../db/entity/base.entity';
+import { User } from '../../../../core/users/entities/user.entity';
+import { ReturnRequestStatus } from '../enums/order.enum';
+import { OrderItem } from './order-item.entity';
 
 @Entity('return_request')
 export class ReturnRequest extends BaseEntity {

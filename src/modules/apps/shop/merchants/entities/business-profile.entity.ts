@@ -1,6 +1,6 @@
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { BaseEntity } from '../../../../../db/entity/base.entity';
-import { User } from '../../../../../modules/core/users/entities/user.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { User } from '../../../../core/users/entities/user.entity';
 import { Product } from '../../products/entities/product.entity';
 
 @Entity({ name: 'business_profile' })

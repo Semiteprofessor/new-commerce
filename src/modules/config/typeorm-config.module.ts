@@ -9,19 +9,24 @@ import { User } from '../core/users/entities/user.entity';
 import { BusinessProfile } from '../apps/shop/merchants/entities/business-profile.entity';
 import { Cart } from '../apps/shop/cart/entities/cart.entity';
 import { CartItem } from '../apps/shop/cart/entities/cart-item.entity';
+import { Brand } from '../apps/brands/entities/brand.entity';
 import { Order } from '../apps/shop/order/entities/order.entity';
 import { OrderItem } from '../apps/shop/order/entities/order-item.entity';
+import {
+  MobileBanner,
+  MobileBannerImage,
+} from '../apps/shop/banners/entities/mobile-banner.entity';
+import {
+  WebBanner,
+  WebBannerImage,
+} from '../apps/shop/banners/entities/web-banner.entity';
 import { Wishlist } from '../apps/shop/wishlist/entities/wishlist.entity';
 import { ShippingAddress } from '../apps/shop/order/entities/shipping-address.entity';
 import { Coupon } from '../apps/shop/products/entities/coupon.entity';
 import { Warranty } from '../apps/shop/warranty/entities/warranty.entity';
+import { SystemWallet } from '../apps/wallet/entities/system-wallets.entity';
 import { ReturnRequest } from '../apps/shop/order/entities/return-request.entity';
 import { Review } from '../apps/shop/products/entities/review.entity';
-import { Brand } from '../apps/brands/entities/brand.entity';
-import { WebBanner } from '../apps/shop/banners/entities/web-banner.entity';
-import { MobileBanner, MobileBannerImage } from '../apps/shop/banners/entities/mobile-banner.entity';
-import { WebBannerImageRepository } from '../apps/shop/banners/repositories/web-banner-image.repository';
-import { SystemWallet } from '../apps/wallet/entities/system-wallets.entity';
 
 @Module({
   imports: [
@@ -46,7 +51,7 @@ import { SystemWallet } from '../apps/wallet/entities/system-wallets.entity';
             WebBanner,
             Wishlist,
             MobileBanner,
-            WebBannerImageRepository,
+            WebBannerImage,
             MobileBannerImage,
             ShippingAddress,
             Coupon,

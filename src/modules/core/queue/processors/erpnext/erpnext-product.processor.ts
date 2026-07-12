@@ -1,9 +1,9 @@
 import { OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Job } from 'bullmq';
-import { ErpNextService } from 'src/modules/erpnext/services/erpnext.service';
+import { ErpNextService } from '../../../../erpnext/services/erpnext.service';
 
-@Processor('Rancho Products')
+@Processor('3xg Products')
 export class ProductsSyncProcessor extends WorkerHost {
   constructor(
     private readonly eventEmitter: EventEmitter2,

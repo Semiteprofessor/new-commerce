@@ -5,31 +5,30 @@ import {
   QueryFailedError,
   Repository,
 } from 'typeorm';
-import { Brand } from './entities/brand.entity';
-import { ConflictException } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Brand } from '../entities/brand.entity';
 
+@Injectable()
 export class BrandRepository {
   constructor(
     @InjectRepository(Brand)
     private readonly _brandRepository: Repository<Brand>,
   ) {}
-
   async create(data: DeepPartial<Brand>): Promise<Brand> {
     try {
-      const brand = this._brandRepository.create(data);
-      return await this._brandRepository.save(brand);
+      const user = this._brandRepository.create(data);
+      return await this._brandRepository.save(user);
     } catch (e) {
       if (
         e instanceof QueryFailedError &&
-        (e as QueryFailedError & { code?: string }).code === '23505'
+        (e as any).driverError?.code === '23505'
       ) {
         throw new ConflictException({
           statusCode: 409,
-          message: `A brand with name '${data.name}' already exists.`,
+          message: `A brand with name "${data.name}" already exists.`,
         });
       }
-
       throw e;
     }
   }

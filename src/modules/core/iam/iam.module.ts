@@ -1,24 +1,24 @@
 import { Module } from '@nestjs/common';
+import { BcryptService } from './authentication/services/bcrypt.service';
+import { HashingService } from './authentication/services/hashing.service';
+import { UserRepository } from '../users/repositories/user.repository';
+import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
 import { ConfigModule } from '@nestjs/config';
-import { User } from '../users/entities/user.entity';
-import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
-import { UserModule } from '../users/user.module';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { JwtModule } from '@nestjs/jwt';
-import { AuthController } from './authentication/controllers/auth.controller';
-import { AuthService } from './authentication/services/auth.service';
-import { GoogleStrategy } from './authentication/strategies/google.strategy';
-import { HashingService } from './authentication/services/hashing.service';
-import { BcryptService } from './authentication/services/bcrypt.service';
+import { AccessTokenGuard } from './authentication/guards/access-token.guard';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './authentication/guards/authentication.guard';
-import { RoleGuard } from './authorization/guards/guards/role.guard';
-import { OtpModule } from '../otp/otp.module';
-import { UserRepository } from '../users/repositories/user.repository';
-import { AccessTokenGuard } from './authentication/guards/access-token.guard';
 import { RefreshTokenIdsStorage } from './authentication/refresh-token-ids.storage';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../users/entities/user.entity';
+import { UserModule } from '../users/user.module';
+import { OtpModule } from '../otp/otp.module';
+import { GoogleStrategy } from './authentication/strategies/google.strategy';
+import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
 import { BusinessProfileRepository } from '../users/repositories/business.repository';
+import { RoleGuard } from './authorization/guards/guards/role.guard';
+import { AuthService } from './authentication/services/auth.service';
+import { AuthController } from './authentication/controllers/auth.controller';
 
 @Module({
   imports: [
@@ -38,8 +38,8 @@ import { BusinessProfileRepository } from '../users/repositories/business.reposi
     },
     { provide: APP_GUARD, useClass: RoleGuard },
     AccessTokenGuard,
-    RefreshTokenIdsStorage,
     AuthService,
+    RefreshTokenIdsStorage,
     UserRepository,
     BusinessProfileRepository,
   ],

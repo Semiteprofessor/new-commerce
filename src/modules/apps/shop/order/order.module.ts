@@ -35,7 +35,7 @@ import { ProductModule } from '../products/product.module';
       BusinessProfile,
       ReturnRequest,
     ]),
-    CartModule,
+    EscrowModule,
     RedisModule,
     forwardRef(() => CartModule),
     forwardRef(() => ProductModule),

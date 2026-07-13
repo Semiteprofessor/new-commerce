@@ -1,4 +1,5 @@
-import { BaseEntity } from 'src/db/entity/base.entity';
+import { BaseEntity } from '../../../../../db/entity/base.entity';
+import { User } from '../../../../../modules/core/users/entities/user.entity';
 import {
   Entity,
   Column,
@@ -9,12 +10,11 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Category } from '../../../categories/entities/category.entity';
-import { User } from '../../../../core/users/entities/user.entity';
 import { Wishlist } from '../../wishlist/entities/wishlist.entity';
 import { BusinessProfile } from '../../merchants/entities/business-profile.entity';
 import { Coupon } from './coupon.entity';
-import { Review } from './review.entity';
 import { ProductStatuses } from '../enums/product.enum';
+import { Review } from './review.entity';
 
 @Entity('products')
 export class Product extends BaseEntity {

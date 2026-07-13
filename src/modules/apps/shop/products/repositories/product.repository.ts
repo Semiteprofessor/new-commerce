@@ -5,16 +5,15 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Product, Product as ProductEntity } from '../entities/product.entity';
 import { EntityRepository } from '../../../../../db/repository/entity.repository';
+import { Product, Product as ProductEntity } from '../entities/product.entity';
+import { Category } from '../../../../../modules/apps/categories/entities/category.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 import {
   PageInfo,
   PaginatedRecordsDto,
   QueryParamsDto,
-} from '../../../../common/dtos/pagination.dto';
-import { CreateProductDto } from '../dto/product.dto';
-import { Category } from 'src/modules/apps/categories/entities/category.entity';
+} from '../../../../../modules/common/dtos/pagination.dto';
 import { WishlistRepository } from '../../wishlist/repositories/wishlist.repository';
 import { Wishlist } from '../../wishlist/entities/wishlist.entity';
 

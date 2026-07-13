@@ -5,21 +5,21 @@ import { UserRepository } from '../users/repositories/user.repository';
 import { JwtModule } from '@nestjs/jwt';
 import jwtConfig from './config/jwt.config';
 import { ConfigModule } from '@nestjs/config';
-import { AccessTokenGuard } from './authentication/guards/access-token.guard';
+import { User } from '../users/entities/user.entity';
+import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
+import { UserModule } from '../users/user.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthController } from './authentication/controllers/auth.controller';
+import { AuthService } from './authentication/services/auth.service';
+import { GoogleStrategy } from './authentication/strategies/google.strategy';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './authentication/guards/authentication.guard';
 import { RefreshTokenIdsStorage } from './authentication/refresh-token-ids.storage';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../users/entities/user.entity';
-import { UserModule } from '../users/user.module';
+import { BusinessProfileRepository } from 'src/modules/apps/shop/merchants/repositories/business-profile.repository';
 import { OtpModule } from '../otp/otp.module';
-import { GoogleStrategy } from './authentication/strategies/google.strategy';
-import { BusinessProfile } from 'src/modules/apps/shop/merchants/entities/business-profile.entity';
-import { BusinessProfileRepository } from '../users/repositories/business.repository';
-import { RoleGuard } from './authorization/guards/guards/role.guard';
-import { AuthService } from './authentication/services/auth.service';
-import { AuthController } from './authentication/controllers/auth.controller';
 import { MerchantsModule } from 'src/modules/apps/shop/merchants/merchants.module';
+import { RoleGuard } from './authorization/guards/guards/role.guard';
+import { AccessTokenGuard } from './authentication/guards/access-token.guard';
 
 @Module({
   imports: [

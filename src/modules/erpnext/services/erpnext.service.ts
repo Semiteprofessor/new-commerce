@@ -74,6 +74,8 @@ export class ErpNextService {
           country: 'Nigeria',
         },
       );
+
+      console.log(res.data.message.body);
     } catch (e) {
       console.log(e);
       throw e;

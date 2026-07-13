@@ -51,18 +51,26 @@ async function bootstrap() {
   const allowedOrigins = [
     'http://localhost:3000',
     'http://localhost:3001',
+    'http://localhost:8002',
     'https://staging-merchant.3xg.africa',
     'https://staging-shop.3xg.africa',
   ];
 
   app.enableCors({
-    origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+  origin: (origin, callback) => {
+    console.log("Origin:", origin);
+
+    if (!origin) {
+      return callback(null, true);
+    }
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    console.log("Blocked:", origin);
+    callback(new Error("Not allowed by CORS"));
+  },
     // origin: ['*'],
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept'],
@@ -70,7 +78,7 @@ async function bootstrap() {
   });
 
   await app.listen(PORT, () => {
-    console.log(`Api is running on port ${PORT}`);
+    console.log(`Api is running on port http://localhost:${PORT}`);
   });
 }
 

@@ -13,9 +13,10 @@ export class ErpnextQueueService {
   constructor(
     @InjectQueue('Rancho Users') private readonly erpUsersQueue: Queue,
     @InjectQueue('Rancho Products') private readonly erpProductsQueue: Queue,
-    @InjectQueue('Rancho Orders') private readonly erpOrdersQueue: Queue,
-    @InjectQueue('Rancho Returns') private readonly erpReturnsQueue: Queue,
-
+    @InjectQueue('Rancho Orders')
+    private readonly erpOrdersQueue: Queue,
+    @InjectQueue('Rancho Returns')
+    private readonly erpReturnsQueue: Queue,
   ) {}
 
   async enqueueCreateErpNextUser(user: User) {

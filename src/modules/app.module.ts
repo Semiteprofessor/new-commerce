@@ -7,9 +7,6 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
-import { AppInterceptor } from './common/interceptors/app.interceptor';
-import { UserModule } from './core/users/user.module';
-import { AssetsModule } from './assets/assets.module';
 import { NotificationModule } from './notifications/modules/notification.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { UtilsModule } from './utils/utils.module';
@@ -22,7 +19,10 @@ import { WebhookModule } from './core/webhooks/webhook.module';
 import { WalletModule } from './apps/wallet/wallet.module';
 import { LoggerModule } from './core/logger/logger.module';
 import { RedisModule } from './redis/redis.module';
+import { UserModule } from './core/users/user.module';
+import { AssetsModule } from './assets/assets.module';
 import { CategoriesModule } from './apps/categories/category.module';
+import { AppInterceptor } from './common/interceptors/app.interceptor';
 
 @Module({
   imports: [
@@ -38,6 +38,19 @@ import { CategoriesModule } from './apps/categories/category.module';
       },
       inject: [ConfigService],
     }),
+
+    WinstonModule.forRoot({
+      transports: [
+        new winston.transports.Console({
+          format: winston.format.combine(
+            winston.format.timestamp(),
+            winston.format.colorize(),
+            winston.format.simple(),
+          ),
+        }),
+      ],
+    }),
+
     IamModule,
     UserModule,
     EventEmitterModule.forRoot(),

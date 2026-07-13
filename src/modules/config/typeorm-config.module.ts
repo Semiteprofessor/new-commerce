@@ -40,7 +40,7 @@ import { Review } from '../apps/shop/products/entities/review.entity';
             Section,
             Category,
             Product,
-            User,
+            User, 
             BusinessProfile,
             Brand,
             Cart,
@@ -57,9 +57,7 @@ import { Review } from '../apps/shop/products/entities/review.entity';
             Coupon,
             Warranty,
             ReturnRequest,
-            Review,
             SystemWallet,
-            ReturnRequest,
           ],
         };
       },

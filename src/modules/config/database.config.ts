@@ -13,7 +13,7 @@ export default () => ({
   database: process.env.TYPEORM_DATABASE,
 
   synchronize: false,
-  autoLoadEntities: true,
+  autoLoadEntities: false,
 
   entities: isDevelopment ? ['src/**/*.entity.ts'] : ['dist/**/*.entity.js'],
 

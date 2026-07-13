@@ -5,24 +5,25 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { Product } from '../entities/product.entity';
-import { CreateProductDto } from '../dto/product.dto';
-import slugify from 'slugify';
-import { CategoryService } from '../../../categories/services/category.service';
+import { ConfigService } from '@nestjs/config';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { ErpnextQueueService } from '../../../../../modules/core/queue/erpnext-queue.service';
+import { UserRepository } from '../../../../../modules/core/users/repositories/user.repository';
 import { ProductRepository } from '../repositories/product.repository';
-import { ErpnextQueueService } from '../../../../core/queue/erpnext-queue.service';
+
+import slugify from 'slugify';
+import { CreateProductDto } from '../dto/product.dto';
+import { ActorUser } from '../../../../../modules/common/types/user.types';
+import { Product } from '../entities/product.entity';
+import { CategoryService } from '../../../categories/services/category.service';
 import {
   PaginatedRecordsDto,
   QueryParamsDto,
-} from '../../../../common/dtos/pagination.dto';
-import { ActorUser } from '../../../../common/types/user.types';
-import { ErrorCodes } from '../../../../common/error-codes.enum';
-import { BrandRepository } from 'src/modules/apps/brands/repositories/brand.repository';
-import { BusinessProfileRepository } from 'src/modules/core/users/repositories/business.repository';
-import { UserRepository } from 'src/modules/core/users/repositories/user.repository';
-import { UserEvents } from 'src/modules/common/app.events';
+} from '../../../../../modules/common/dtos/pagination.dto';
+import { ErrorCodes } from '../../../../../modules/common/error-codes.enum';
+import { UserEvents } from '../../../../../modules/common/app.events';
+import { ProductStatuses } from '../enums/product.enum';
 import { BuyNowDto } from '../../cart/dto/cart';
-import { EventEmitter2 } from '@nestjs/event-emitter';
 import { ShippingAddressService } from '../../order/services/shipping-address.service';
 import { OrderRepository } from '../../order/repositories/order.repository';
 import { OrderItemRepository } from '../../order/repositories/order-item.repository';
@@ -30,9 +31,9 @@ import { ShippingAddressRepository } from '../../order/repositories/shipping-add
 import { WishlistRepository } from '../../wishlist/repositories/wishlist.repository';
 import { Warranty } from '../../warranty/entities/warranty.entity';
 import { ReviewRepository } from '../repositories/review.repository';
+import { BusinessProfileRepository } from '../../merchants/repositories/business-profile.repository';
+import { BrandRepository } from 'src/modules/apps/brands/repositories/brand.repository';
 import { CreateReviewDto } from '../dto/review.dto';
-import { ConfigService } from '@nestjs/config';
-import { ProductStatuses } from '../enums/product.enum';
 
 const { customAlphabet } = require('nanoid');
 

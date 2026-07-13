@@ -11,21 +11,21 @@ import { Order } from 'src/modules/apps/shop/order/entities/order.entity';
 
 import { Cart } from 'src/modules/apps/shop/cart/entities/cart.entity';
 import { CartItem } from 'src/modules/apps/shop/cart/entities/cart-item.entity';
+import { Wishlist } from 'src/modules/apps/shop/wishlist/entities/wishlist.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, BusinessProfile, Cart, CartItem, Order]),
+    TypeOrmModule.forFeature([
+      User,
+      BusinessProfile,
+      Cart,
+      CartItem,
+      Order,
+      Wishlist,
+    ]),
   ],
   controllers: [UserController],
   providers: [UserService, UserRepository, BusinessProfileRepository],
-  exports: [UserService, BusinessProfileRepository, UserRepository],
+  exports: [UserService, UserRepository, BusinessProfileRepository],
 })
-export class UserModule implements OnModuleInit {
-  constructor(private readonly userService: UserService) {
-    this.userService.createWalletForAllExistingUsers().then().catch();
-  }
-
-  async onModuleInit(): Promise<any> {
-    // await this.userService.createWalletForAllExistingUsers();
-  }
-}
+export class UserModule {}

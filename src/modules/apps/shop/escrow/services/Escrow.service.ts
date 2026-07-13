@@ -6,20 +6,20 @@ import {
   SystemWalletType,
   TransactionStatus,
   TransactionType,
-} from '../../../../../modules/apps/wallet/enums/transaction.enum';
-import { Transaction } from '../../../../../modules/apps/wallet/entities/transaction.entity';
-import { SystemWallet } from '../../../../../modules/apps/wallet/entities/system-wallets.entity';
+} from '../../../wallet/enums/transaction.enum';
+import { Transaction } from '../../../wallet/entities/transaction.entity';
+import { SystemWallet } from '../../../wallet/entities/system-wallets.entity';
 import { endOfDay } from 'date-fns/endOfDay';
-import { Wallet } from '../../../../../modules/apps/wallet/entities/wallet.entity';
-import { addDaysToDateObject } from '../../../../../modules/common/helpers/data.helper';
-import { nairaToKobo } from '../../../../../modules/common/helpers/number.helper';
-import { AppEvents } from '../../../../../modules/common/app.events';
+import { Wallet } from '../../../wallet/entities/wallet.entity';
+import { addDaysToDateObject } from '../../../../common/helpers/data.helper';
+import { nairaToKobo } from '../../../../common/helpers/number.helper';
+import { AppEvents } from '../../../../common/app.events';
 import { OnEvent } from '@nestjs/event-emitter';
 import {
   AppLoggerService,
   ContextLogger,
-} from '../../../../../modules/core/logger/logger.service';
-import { SystemWalletRepository } from '../../../../../modules/apps/wallet/repositories/system-wallet.repository';
+} from '../../../../core/logger/logger.service';
+import { SystemWalletRepository } from '../../../wallet/repositories/system-wallet.repository';
 import { OrderRepository } from '../../order/repositories/order.repository';
 import { EscrowRepository } from '../repositories/escrow.repository';
 import { OrderItem } from '../../order/entities/order-item.entity';

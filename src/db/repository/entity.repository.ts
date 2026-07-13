@@ -3,10 +3,11 @@ import {
   FindManyOptions,
   FindOneOptions,
   FindOptionsWhere,
-  QueryDeepPartialEntity,
   Repository,
   SelectQueryBuilder,
 } from 'typeorm';
+
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 export abstract class EntityRepository<T> {
   constructor(protected readonly entityRepository: Repository<T>) {}

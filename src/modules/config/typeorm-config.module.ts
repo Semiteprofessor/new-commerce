@@ -18,8 +18,14 @@ import { Warranty } from '../apps/shop/warranty/entities/warranty.entity';
 import { ReturnRequest } from '../apps/shop/order/entities/return-request.entity';
 import { Review } from '../apps/shop/products/entities/review.entity';
 import { Brand } from '../apps/brands/entities/brand.entity';
-import { WebBanner } from '../apps/shop/banners/entities/web-banner.entity';
-import { MobileBanner, MobileBannerImage } from '../apps/shop/banners/entities/mobile-banner.entity';
+import {
+  WebBanner,
+  WebBannerImage,
+} from '../apps/shop/banners/entities/web-banner.entity';
+import {
+  MobileBanner,
+  MobileBannerImage,
+} from '../apps/shop/banners/entities/mobile-banner.entity';
 import { WebBannerImageRepository } from '../apps/shop/banners/repositories/web-banner-image.repository';
 import { SystemWallet } from '../apps/wallet/entities/system-wallets.entity';
 
@@ -35,26 +41,24 @@ import { SystemWallet } from '../apps/wallet/entities/system-wallets.entity';
             Section,
             Category,
             Product,
-            User,
+            User, 
             BusinessProfile,
             Brand,
             Cart,
             CartItem,
             Order,
             OrderItem,
-            //Review,
+            Review,
             WebBanner,
             Wishlist,
             MobileBanner,
-            WebBannerImageRepository,
+            WebBannerImage,
             MobileBannerImage,
             ShippingAddress,
             Coupon,
             Warranty,
             ReturnRequest,
-            Review,
             SystemWallet,
-            ReturnRequest,
           ],
         };
       },

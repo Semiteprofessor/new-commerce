@@ -12,7 +12,7 @@ enum SortOrder {
   DESC = 'DESC',
 }
 
-export class QueryParamsDto {
+export class PaginaQueryParamsDto {
   @IsOptional()
   @IsIn(['customer', 'merchant', 'admin'])
   role: string;

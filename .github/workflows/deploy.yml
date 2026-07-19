@@ -63,7 +63,7 @@ jobs:
             set -ex
             export IMAGE_TAG=${{ github.sha }}
             cd ~/api
-            aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+            aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
             docker compose pull api
             docker compose down -v --remove-orphans
             docker compose up -d --force-recreate api
@@ -84,7 +84,7 @@ jobs:
             set -ex
             export IMAGE_TAG=${{ github.sha }}
             cd ~/api
-            aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
+            aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${{ env.ECR_REGISTRY }}
             docker compose pull api
             docker compose down -v --remove-orphans
             docker compose up -d --force-recreate api
